@@ -2,8 +2,8 @@ int a(int b){
 
     int digito=0;
 
-    for (int i = 1; i <= 5; i++) {
-        b = b+1;
+    for (int i = 1; i <= 10; i++) {
+        i = i-2;
     }
 }
 
@@ -24,4 +24,8 @@ int c(int d){
     }
     float a = 4;
     return 1;
+}
+
+int main(){
+    c(4);
 }

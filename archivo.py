@@ -1,19 +1,25 @@
-def a (b):
+def a(b):
 	digito = 0
-	for(i = 1;i<=5;i++){
-	b = b + 1
-}
+	for i in range(1, 11):
+	i = i - 2
 
-def v (b):
+
+def v(b):
 	digito = 0
-	for(i = 1;i<=5;i++){
+	for i in range(1, 6):
 	b = b + 1
-}
 
-def c (d):
+
+def c(d):
 	if(d>3):
-		d = d + 1
-	else:
-		d = d - 1
+	d = d + 1
+else:
+	d = d - 1
 
+	a = 4
 	return 1
+
+def main():
+	c(4)
+if __name__ == '__main__':
+	main()

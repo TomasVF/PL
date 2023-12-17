@@ -9,7 +9,7 @@ extern int yyparse();
 void yyerror(const char *s);
 %}
 
-%token ADD SUB MUL DIV ASSIGN SEMICOLON LPAREN RPAREN INT FLOAT DOUBLE CHAR VOID COLON LBRACE RBRACE TRUE FALSE RETURN IF ELSE WHILE FOR EQ NE GE GT LE LT
+%token ADD SUB MUL DIV ASSIGN SEMICOLON LPAREN RPAREN INT FLOAT DOUBLE CHAR VOID COLON LBRACE RBRACE RETURN IF ELSE WHILE FOR EQ NE GE GT LE LT
 
 %union {
     char *string;
@@ -77,10 +77,17 @@ statements : thingThatCanHappen
            ;
 
 funcs : etype IDENTIFIER LPAREN declaration_list RPAREN LBRACE statementsf RBRACE {
+
+
+
             //QUITAR TIPO, PONER DEF, : FINALES
             char str[2048];
 
-            sprintf(str, "def %s (%s):\n%s\n", $2, $4, $7);
+            if(strcmp($2, "main")==0){
+                sprintf(str, "def %s(%s):\n%s\n%s", $2, $4, $7, "if __name__ == '__main__':\n\tmain()\n");
+            }else{
+                sprintf(str, "def %s(%s):\n%s\n", $2, $4, $7);
+            }
 
             size_t originalStringLength = strlen(str);
 
@@ -88,6 +95,8 @@ funcs : etype IDENTIFIER LPAREN declaration_list RPAREN LBRACE statementsf RBRAC
             copiedString = (char *)malloc(originalStringLength+1);
 
             strcpy(copiedString, str);
+
+
 
             $$ = copiedString;
         }
@@ -165,6 +174,9 @@ declaration_list : lastdec
 
                     $$ = copiedString;
                  }
+                 |{
+                    $$ = "";
+                 }
                  ;
 
 lastdec : etype IDENTIFIER{
@@ -230,7 +242,7 @@ thingThatCanHappen : statement
                     }
                 ;
 
-funcCallList : IDENTIFIER
+funcCallList : expression
              | IDENTIFIER COLON funcCallList {
                     char str[40];
 
@@ -344,10 +356,73 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
             $$ = copiedString;
         }
         | FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN LBRACE statementsf RBRACE{
+
+            char delimitador[] = "= ";
+            char *nombreVariable = strtok($3, delimitador);
+            char *valorInicial = strtok(NULL, delimitador);
+
+
             //TODO
             char str[1024];
 
-            sprintf(str, "for(%s;%s;%s){\n%s\n}", $3, $4, $6, $9);
+            int aumento = 0;
+            if(strstr($6, "++") != NULL){
+                aumento = 1;
+            }else if(strstr($6, "--") != NULL){
+                aumento = 0;
+            }
+
+
+            //vamos a hacer como si siempre es i++ o i--
+            if (strstr($4, "<=") != NULL) {
+                char delimitador2[] = "<=";
+                char *nombreVariable2 = strtok($4, delimitador2);
+                char *valorCondicion = strtok(NULL, delimitador2);
+                if(atoi(valorInicial)==0 && aumento){
+                    sprintf(str, "for %s in range(%d):\n%s\n", nombreVariable, (atoi(valorCondicion)+1), $9);
+                }else if(aumento){
+                    sprintf(str, "for %s in range(%s, %d):\n%s\n", nombreVariable, valorInicial, (atoi(valorCondicion)+1), $9);
+                }else{
+                    yyerror("No tiene sentido usar un for disminuyendo con <=");
+                    exit(2);
+                }
+            } else if (strstr($4, ">=") != NULL) {
+                char delimitador2[] = "<=";
+                char *nombreVariable2 = strtok($4, delimitador2);
+                char *valorCondicion = strtok(NULL, delimitador2);
+                if(aumento){
+                    yyerror("No tiene sentido usar un for aumentando con >=");
+                    exit(2);
+                }
+                sprintf(str, "for %s in range(%s, %d, -1):\n%s\n", nombreVariable, valorInicial, (atoi(valorCondicion)-1), $9);
+            } else if (strstr($4, "<") != NULL) {
+                char delimitador2[] = "<";
+                char *nombreVariable2 = strtok($4, delimitador2);
+                char *valorCondicion = strtok(NULL, delimitador2);
+                if(atoi(valorInicial)==0 && aumento){
+                    sprintf(str, "for %s in range(%s):\n%s\n", nombreVariable, valorCondicion, $9);
+                }else if(aumento){
+                    sprintf(str, "for %s in range(%s, %s):\n%s\n", nombreVariable, valorInicial, valorCondicion, $9);
+                }else{
+                    yyerror("No tiene sentido usar un for disminuyendo con <");
+                    exit(2);
+                }
+            } else if (strstr($4, ">") != NULL) {
+                char delimitador2[] = "<=";
+                char *nombreVariable2 = strtok($4, delimitador2);
+                char *valorCondicion = strtok(NULL, delimitador2);
+                if(aumento){
+                    yyerror("No tiene sentido usar un for aumentando con >");
+                    exit(2);
+                }
+                sprintf(str, "for %s in range(%s, %s, -1):\n%s\n", nombreVariable, valorInicial, valorCondicion, $9);
+            }if (strstr($4, "==") != NULL) {
+                yyerror("No tiene sentido usar un for con ==, usa un while");
+                exit(2);
+            }if (strstr($4, "!=") != NULL) {
+                yyerror("No tiene sentido usar un for con !=, usa un while");
+                exit(2);
+            }
 
             size_t originalStringLength = strlen(str);
 

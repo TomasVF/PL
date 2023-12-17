@@ -70,21 +70,19 @@ extern int yydebug;
     COLON = 271,                   /* COLON  */
     LBRACE = 272,                  /* LBRACE  */
     RBRACE = 273,                  /* RBRACE  */
-    TRUE = 274,                    /* TRUE  */
-    FALSE = 275,                   /* FALSE  */
-    RETURN = 276,                  /* RETURN  */
-    IF = 277,                      /* IF  */
-    ELSE = 278,                    /* ELSE  */
-    WHILE = 279,                   /* WHILE  */
-    FOR = 280,                     /* FOR  */
-    EQ = 281,                      /* EQ  */
-    NE = 282,                      /* NE  */
-    GE = 283,                      /* GE  */
-    GT = 284,                      /* GT  */
-    LE = 285,                      /* LE  */
-    LT = 286,                      /* LT  */
-    IDENTIFIER = 287,              /* IDENTIFIER  */
-    INTEGER = 288                  /* INTEGER  */
+    RETURN = 274,                  /* RETURN  */
+    IF = 275,                      /* IF  */
+    ELSE = 276,                    /* ELSE  */
+    WHILE = 277,                   /* WHILE  */
+    FOR = 278,                     /* FOR  */
+    EQ = 279,                      /* EQ  */
+    NE = 280,                      /* NE  */
+    GE = 281,                      /* GE  */
+    GT = 282,                      /* GT  */
+    LE = 283,                      /* LE  */
+    LT = 284,                      /* LT  */
+    IDENTIFIER = 285,              /* IDENTIFIER  */
+    INTEGER = 286                  /* INTEGER  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -109,21 +107,19 @@ extern int yydebug;
 #define COLON 271
 #define LBRACE 272
 #define RBRACE 273
-#define TRUE 274
-#define FALSE 275
-#define RETURN 276
-#define IF 277
-#define ELSE 278
-#define WHILE 279
-#define FOR 280
-#define EQ 281
-#define NE 282
-#define GE 283
-#define GT 284
-#define LE 285
-#define LT 286
-#define IDENTIFIER 287
-#define INTEGER 288
+#define RETURN 274
+#define IF 275
+#define ELSE 276
+#define WHILE 277
+#define FOR 278
+#define EQ 279
+#define NE 280
+#define GE 281
+#define GT 282
+#define LE 283
+#define LT 284
+#define IDENTIFIER 285
+#define INTEGER 286
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -133,7 +129,7 @@ union YYSTYPE
 
     char *string;
 
-#line 137 "try.tab.h"
+#line 133 "try.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

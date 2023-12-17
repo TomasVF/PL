@@ -10,7 +10,7 @@ all: compile run
 
 compile:
 	flex $(FUENTE).l
-	bison -o $(FUENTE).tab.c $(FUENTE).y -yd
+	bison -r all -o $(FUENTE).tab.c $(FUENTE).y -yd
 	gcc -o $(FUENTE) lex.yy.c $(FUENTE).tab.c -$(LIB) 
 
 clean:
