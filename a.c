@@ -5,4 +5,7 @@ int a (int b, int a){
         int a = 3;
     }
     int c = 3;
+    while(a){
+        int g = 2;
+    }
 }

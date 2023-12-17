@@ -22,8 +22,6 @@
 "="                         { return ASSIGN; }
 ";"                         { return SEMICOLON; }
 ","                         { return COLON; }
-"true"                      { return TRUE; }
-"false"                     { return FALSE; }
 "return"                    { return RETURN; }
 "if"                        { return IF; }
 "else"                      { return ELSE; }

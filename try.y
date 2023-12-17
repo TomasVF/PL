@@ -260,7 +260,7 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
         | WHILE LPAREN boolElement RPAREN LBRACE statementsf RBRACE{
             char str[2048];
 
-            sprintf(str, "if(%s){\n%s\n}", $3, $6);
+            sprintf(str, "while(%s){\n%s\n}", $3, $6);
 
             size_t originalStringLength = strlen(str);
 
@@ -289,12 +289,6 @@ boolElement : IDENTIFIER bcomparator expression{
                 $$ = copiedString;
             }
             | IDENTIFIER
-            | TRUE{
-                $$ = "true";
-            }
-            | FALSE{
-                $$ = "false";
-            }
         
         ;
 bcomparator : EQ {
