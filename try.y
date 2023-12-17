@@ -1,7 +1,9 @@
 %{
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+FILE *archivo;
 extern int yylex();
 extern int yyparse();
 void yyerror(const char *s);
@@ -38,6 +40,7 @@ thingThatCanHappen
 
 program : statements {
             printf("%s", $1);
+            fprintf(archivo, "%s", $1);
         }
         ;
 
@@ -74,7 +77,7 @@ statements : thingThatCanHappen
            ;
 
 funcs : etype IDENTIFIER LPAREN declaration_list RPAREN LBRACE statementsf RBRACE {
-
+            //QUITAR TIPO, PONER DEF, : FINALES
             char str[2048];
 
             sprintf(str, "%s %s (%s){\n%s\n}\n", $1, $2, $4, $7);
@@ -165,6 +168,7 @@ declaration_list : lastdec
                  ;
 
 lastdec : etype IDENTIFIER{
+            //QUITAR TIPO
             char str[40];
             strcpy(str, $1);
             strcat(str, " ");
@@ -182,6 +186,7 @@ lastdec : etype IDENTIFIER{
         ;
 
 declaration : etype IDENTIFIER COLON{
+                //QUITAR TIPO
                 char str[40];
                 strcpy(str, $1);
                 strcat(str, $2);
@@ -247,6 +252,7 @@ funcCallList : IDENTIFIER
         ;
 
 statement : etype IDENTIFIER ASSIGN expression SEMICOLON {
+                //QUITAR TIPO
                 char str[40];
                 strcpy(str, $1);
                 strcat(str, " ");
@@ -265,6 +271,7 @@ statement : etype IDENTIFIER ASSIGN expression SEMICOLON {
           ;
 
 elseOp : ELSE LBRACE statementsf RBRACE{
+            //TODO
             char str[1024];
 
             sprintf(str, "else{\n%s\n}", $3);
@@ -281,6 +288,7 @@ elseOp : ELSE LBRACE statementsf RBRACE{
         ;
 
 felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
+            //TODO
             char str[2048];
 
             sprintf(str, "if(%s){\n%s\n}%s", $3, $6, $8);
@@ -296,6 +304,7 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
         }
 
         |IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE{
+            //TODO
             char str[2048];
 
             sprintf(str, "if(%s){\n%s\n}", $3, $6);
@@ -311,6 +320,7 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
         }
 
         | WHILE LPAREN boolElement RPAREN LBRACE statementsf RBRACE{
+            //TODO
             char str[2048];
 
             sprintf(str, "while(%s){\n%s\n}", $3, $6);
@@ -339,6 +349,7 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
             $$ = copiedString;
         }
         | FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN LBRACE statementsf RBRACE{
+            //TODO
             char str[1024];
 
             sprintf(str, "for(%s;%s;%s){\n%s\n}", $3, $4, $6, $9);
@@ -508,7 +519,7 @@ factor : IDENTIFIER
             $$ = $2;
         }
        ;
-       
+       // Eliminar esta parte, no se necesitan tipos
 etype : INT {
             $$ = "int";
         }
@@ -531,8 +542,17 @@ void yyerror(const char *s) {
 }
 
 int main() {
+    
+    archivo = fopen("archivo.py", "w");
+
+    if (archivo == NULL) {
+        printf("No se pudo abrir el archivo.\n");
+        return 1;
+    }
 
     yyparse();
+
+    fclose(archivo);
     return 0;
 }
 

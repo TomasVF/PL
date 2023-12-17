@@ -10,8 +10,39 @@ Iterables
 
 Prints
 
-
+Nos faltan tipo bool, char y prints si queremos
 ------------------------
 
-programa
+while no furrula sin nada dentro
+Ni asi
+int a(int b){    
 
+    int digito=0;
+
+    while(b<3){
+        b = b++;
+    }
+}
+Asi si
+int a(int b){    
+
+    int digito=0;
+
+    while(b<3){
+        b = b+1;
+    }
+}
+
+For furrula bien (creo)
+if tb
+return tb 
+
+---------------------------------
+Cambios para python
+-Las variables no tienen tipos
+-Las funciones no tienen tipos: Se definen con def ()
+-Los argumentos pasados a una funcion no tienen tipo
+-No hay corchetes tras una funcion, hay :
+-la estructura ->   while () {}                 ->  while ():
+                    for(int i=1; i <= np; i++)  ->  for i in range(np):
+                    If - else se traduce igual, poniendo : en vez de corchetes
