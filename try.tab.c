@@ -543,10 +543,10 @@ static const yytype_int8 yytranslate[] =
 static const yytype_int16 yyrline[] =
 {
        0,    35,    35,    40,    41,    42,    56,    72,    88,   101,
-     114,   129,   146,   147,   163,   180,   195,   213,   230,   245,
-     246,   249,   254,   257,   260,   263,   266,   269,   274,   275,
-     290,   307,   308,   323,   341,   342,   343,   348,   351,   354,
-     357
+     114,   129,   146,   147,   163,   180,   195,   213,   230,   244,
+     245,   248,   253,   256,   259,   262,   265,   268,   273,   274,
+     289,   306,   307,   322,   340,   341,   342,   347,   350,   353,
+     356
 };
 #endif
 
@@ -1392,7 +1392,6 @@ yyreduce:
                                                {
                 char str[40];
                 strcpy(str, (yyvsp[-2].string));
-                strcat(str, " ");
                 strcat(str, (yyvsp[-1].string));
                 strcat(str, (yyvsp[0].string));
                 size_t originalStringLength = strlen(str);
@@ -1404,75 +1403,75 @@ yyreduce:
 
                 (yyval.string) = copiedString;
             }
-#line 1408 "try.tab.c"
+#line 1407 "try.tab.c"
     break;
 
   case 20: /* boolElement: TRUE  */
-#line 246 "try.y"
+#line 245 "try.y"
                   {
                 (yyval.string) = "true";
             }
-#line 1416 "try.tab.c"
+#line 1415 "try.tab.c"
     break;
 
   case 21: /* boolElement: FALSE  */
-#line 249 "try.y"
+#line 248 "try.y"
                    {
                 (yyval.string) = "false";
             }
-#line 1424 "try.tab.c"
+#line 1423 "try.tab.c"
     break;
 
   case 22: /* bcomparator: EQ  */
-#line 254 "try.y"
+#line 253 "try.y"
                  {
             (yyval.string) = "==";
         }
-#line 1432 "try.tab.c"
+#line 1431 "try.tab.c"
     break;
 
   case 23: /* bcomparator: NE  */
-#line 257 "try.y"
+#line 256 "try.y"
               {
             (yyval.string) = "!=";
         }
-#line 1440 "try.tab.c"
+#line 1439 "try.tab.c"
     break;
 
   case 24: /* bcomparator: GE  */
-#line 260 "try.y"
+#line 259 "try.y"
               {
             (yyval.string) = ">=";
         }
-#line 1448 "try.tab.c"
+#line 1447 "try.tab.c"
     break;
 
   case 25: /* bcomparator: GT  */
-#line 263 "try.y"
+#line 262 "try.y"
               {
             (yyval.string) = ">";
         }
-#line 1456 "try.tab.c"
+#line 1455 "try.tab.c"
     break;
 
   case 26: /* bcomparator: LE  */
-#line 266 "try.y"
+#line 265 "try.y"
               {
             (yyval.string) = "<=";
         }
-#line 1464 "try.tab.c"
+#line 1463 "try.tab.c"
     break;
 
   case 27: /* bcomparator: LT  */
-#line 269 "try.y"
+#line 268 "try.y"
               {
             (yyval.string) = "<";
         }
-#line 1472 "try.tab.c"
+#line 1471 "try.tab.c"
     break;
 
   case 29: /* expression: expression ADD term  */
-#line 275 "try.y"
+#line 274 "try.y"
                                  {
                 char str[40];
                 strcpy(str, (yyvsp[-2].string));
@@ -1488,11 +1487,11 @@ yyreduce:
 
                 (yyval.string) = copiedString;
             }
-#line 1492 "try.tab.c"
+#line 1491 "try.tab.c"
     break;
 
   case 30: /* expression: expression SUB term  */
-#line 290 "try.y"
+#line 289 "try.y"
                                  {
                 char str[40];
                 strcpy(str, (yyvsp[-2].string));
@@ -1508,11 +1507,11 @@ yyreduce:
 
                 (yyval.string) = copiedString;
             }
-#line 1512 "try.tab.c"
+#line 1511 "try.tab.c"
     break;
 
   case 32: /* term: term MUL factor  */
-#line 308 "try.y"
+#line 307 "try.y"
                        {
         char str[40];
         strcpy(str, (yyvsp[-2].string));
@@ -1528,11 +1527,11 @@ yyreduce:
 
         (yyval.string) = copiedString;
         }
-#line 1532 "try.tab.c"
+#line 1531 "try.tab.c"
     break;
 
   case 33: /* term: term DIV factor  */
-#line 323 "try.y"
+#line 322 "try.y"
                        {
         char str[40];
         strcpy(str, (yyvsp[-2].string));
@@ -1549,51 +1548,51 @@ yyreduce:
 
         (yyval.string) = copiedString;
         }
-#line 1553 "try.tab.c"
+#line 1552 "try.tab.c"
     break;
 
   case 36: /* factor: LPAREN expression RPAREN  */
-#line 343 "try.y"
+#line 342 "try.y"
                                   {
             (yyval.string) = (yyvsp[-1].string);
         }
-#line 1561 "try.tab.c"
+#line 1560 "try.tab.c"
     break;
 
   case 37: /* etype: INT  */
-#line 348 "try.y"
+#line 347 "try.y"
             {
             (yyval.string) = "int";
         }
-#line 1569 "try.tab.c"
+#line 1568 "try.tab.c"
     break;
 
   case 38: /* etype: FLOAT  */
-#line 351 "try.y"
+#line 350 "try.y"
                  {
             (yyval.string) = "float";
         }
-#line 1577 "try.tab.c"
+#line 1576 "try.tab.c"
     break;
 
   case 39: /* etype: DOUBLE  */
-#line 354 "try.y"
+#line 353 "try.y"
                   {
             (yyval.string) = "double";
         }
-#line 1585 "try.tab.c"
+#line 1584 "try.tab.c"
     break;
 
   case 40: /* etype: CHAR  */
-#line 357 "try.y"
+#line 356 "try.y"
                 {
             (yyval.string) = "char";
         }
-#line 1593 "try.tab.c"
+#line 1592 "try.tab.c"
     break;
 
 
-#line 1597 "try.tab.c"
+#line 1596 "try.tab.c"
 
       default: break;
     }
@@ -1786,7 +1785,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 363 "try.y"
+#line 362 "try.y"
 
 
 void yyerror(const char *s) {

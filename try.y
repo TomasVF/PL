@@ -29,6 +29,7 @@ statementsf
 boolElement
 felements
 bcomparator
+elseOp
 
 %%
 
@@ -210,7 +211,39 @@ statement : etype IDENTIFIER ASSIGN expression SEMICOLON {
             }
           ;
 
-felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE{
+elseOp : 
+        | ELSE LBRACE statementsf RBRACE{
+            char str[1024];
+
+            sprintf(str, "else{\n%s\n}", $3);
+
+            size_t originalStringLength = strlen(str);
+
+            char *copiedString;
+            copiedString = (char *)malloc(originalStringLength+1);
+
+            strcpy(copiedString, str);
+
+            $$ = copiedString;
+        }
+        ;
+
+felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
+            char str[2048];
+
+            sprintf(str, "if(%s){\n%s\n}", $3, $6);
+
+            size_t originalStringLength = strlen(str);
+
+            char *copiedString;
+            copiedString = (char *)malloc(originalStringLength+1);
+
+            strcpy(copiedString, str);
+
+            $$ = copiedString;
+        }
+
+        | WHILE LPAREN boolElement RPAREN LBRACE statementsf RBRACE{
             char str[2048];
 
             sprintf(str, "if(%s){\n%s\n}", $3, $6);
@@ -230,7 +263,6 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE{
 boolElement : IDENTIFIER bcomparator expression{
                 char str[40];
                 strcpy(str, $1);
-                strcat(str, " ");
                 strcat(str, $2);
                 strcat(str, $3);
                 size_t originalStringLength = strlen(str);
