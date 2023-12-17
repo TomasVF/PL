@@ -17,9 +17,10 @@ else:
 	d = d - 1
 
 	a = 4
+	v = 'v'
 	return 1
 
 def main():
-	c(4)
+	c('A')
 if __name__ == '__main__':
 	main()

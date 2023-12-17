@@ -23,9 +23,10 @@ int c(int d){
         d = d-1;
     }
     float a = 4;
+    char v = 'v';
     return 1;
 }
 
 int main(){
-    c(4);
+    c('A');
 }

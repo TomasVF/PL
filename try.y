@@ -15,7 +15,7 @@ void yyerror(const char *s);
     char *string;
 }
 
-%token <string> IDENTIFIER INTEGER
+%token <string> IDENTIFIER INTEGER CHARVALUE
 
 %type <string> expression 
 term 
@@ -243,6 +243,7 @@ thingThatCanHappen : statement
                 ;
 
 funcCallList : expression
+             | CHARVALUE
              | IDENTIFIER COLON funcCallList {
                     char str[40];
 
@@ -261,6 +262,21 @@ funcCallList : expression
         ;
 
 statement : etype IDENTIFIER ASSIGN expression SEMICOLON {
+                //QUITAR TIPO
+                char str[40];
+                strcpy(str, $2);
+                strcat(str, " = ");
+                strcat(str, $4);
+                size_t originalStringLength = strlen(str);
+
+                char *copiedString;
+                copiedString = (char *)malloc(originalStringLength+1);
+
+                strcpy(copiedString, str);
+
+                $$ = copiedString;
+            }
+            | etype IDENTIFIER ASSIGN CHARVALUE SEMICOLON {
                 //QUITAR TIPO
                 char str[40];
                 strcpy(str, $2);

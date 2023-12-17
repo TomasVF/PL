@@ -33,6 +33,7 @@
 ">"                         { return GT; }
 "<="                        { return LE; }
 "<"                         { return LT; }
+"'"[^ ''' ';' '\n']*"'"     {  yylval.string=strdup(yytext); return CHARVALUE;  }
 [a-zA-Z][a-zA-Z0-9_]*       { yylval.string=strdup(yytext); return IDENTIFIER; }
 ([0-9]+"."[0-9]+|[0-9]+)           { yylval.string=strdup(yytext); return INTEGER; }
 

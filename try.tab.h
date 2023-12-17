@@ -82,7 +82,8 @@ extern int yydebug;
     LE = 283,                      /* LE  */
     LT = 284,                      /* LT  */
     IDENTIFIER = 285,              /* IDENTIFIER  */
-    INTEGER = 286                  /* INTEGER  */
+    INTEGER = 286,                 /* INTEGER  */
+    CHARVALUE = 287                /* CHARVALUE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -120,6 +121,7 @@ extern int yydebug;
 #define LT 284
 #define IDENTIFIER 285
 #define INTEGER 286
+#define CHARVALUE 287
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -129,7 +131,7 @@ union YYSTYPE
 
     char *string;
 
-#line 133 "try.tab.h"
+#line 135 "try.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
