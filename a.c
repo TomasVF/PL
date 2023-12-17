@@ -22,5 +22,6 @@ int c(int d){
     }else{
         d = d-1;
     }
+    float a = 4;
     return 1;
 }

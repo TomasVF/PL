@@ -69,14 +69,16 @@
 /* First part of user prologue.  */
 #line 1 "try.y"
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+FILE *archivo;
 extern int yylex();
 extern int yyparse();
 void yyerror(const char *s);
 
-#line 80 "try.tab.c"
+#line 82 "try.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -546,12 +548,12 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    39,    39,    44,    45,    46,    60,    76,    92,   105,
-     118,   133,   150,   151,   167,   184,   200,   201,   215,   231,
-     232,   249,   267,   283,   298,   313,   327,   341,   358,   372,
-     386,   401,   415,   418,   421,   424,   427,   430,   433,   438,
-     439,   454,   471,   472,   487,   505,   506,   507,   512,   515,
-     518,   521
+       0,    41,    41,    47,    48,    49,    63,    79,    95,   108,
+     121,   136,   153,   154,   170,   186,   202,   203,   217,   233,
+     234,   251,   268,   285,   301,   317,   332,   346,   364,   378,
+     392,   407,   421,   424,   427,   430,   433,   436,   439,   444,
+     445,   460,   477,   478,   493,   511,   512,   513,   518,   521,
+     524,   527
 };
 #endif
 
@@ -1179,15 +1181,16 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* program: statements  */
-#line 39 "try.y"
+#line 41 "try.y"
                      {
             printf("%s", (yyvsp[0].string));
+            fprintf(archivo, "%s", (yyvsp[0].string));
         }
-#line 1187 "try.tab.c"
+#line 1190 "try.tab.c"
     break;
 
   case 5: /* statements: thingThatCanHappen statements  */
-#line 46 "try.y"
+#line 49 "try.y"
                                           {
                 char str[40];
                 strcpy(str, (yyvsp[-1].string));
@@ -1202,11 +1205,11 @@ yyreduce:
 
                 (yyval.string) = copiedString;
            }
-#line 1206 "try.tab.c"
+#line 1209 "try.tab.c"
     break;
 
   case 6: /* statements: funcs statements  */
-#line 60 "try.y"
+#line 63 "try.y"
                               {
                 char str[40];
                 strcpy(str, (yyvsp[-1].string));
@@ -1221,16 +1224,16 @@ yyreduce:
 
                 (yyval.string) = copiedString;
            }
-#line 1225 "try.tab.c"
+#line 1228 "try.tab.c"
     break;
 
   case 7: /* funcs: etype IDENTIFIER LPAREN declaration_list RPAREN LBRACE statementsf RBRACE  */
-#line 76 "try.y"
+#line 79 "try.y"
                                                                                   {
-
+            //QUITAR TIPO, PONER DEF, : FINALES
             char str[2048];
 
-            sprintf(str, "%s %s (%s){\n%s\n}\n", (yyvsp[-7].string), (yyvsp[-6].string), (yyvsp[-4].string), (yyvsp[-1].string));
+            sprintf(str, "def %s (%s):\n%s\n", (yyvsp[-6].string), (yyvsp[-4].string), (yyvsp[-1].string));
 
             size_t originalStringLength = strlen(str);
 
@@ -1241,11 +1244,11 @@ yyreduce:
 
             (yyval.string) = copiedString;
         }
-#line 1245 "try.tab.c"
+#line 1248 "try.tab.c"
     break;
 
   case 8: /* statementsf: thingThatCanHappen  */
-#line 92 "try.y"
+#line 95 "try.y"
                                 {
                     char str[40];
                     strcpy(str, "\t");
@@ -1259,11 +1262,11 @@ yyreduce:
 
                     (yyval.string) = copiedString;
                 }
-#line 1263 "try.tab.c"
+#line 1266 "try.tab.c"
     break;
 
   case 9: /* statementsf: felements  */
-#line 105 "try.y"
+#line 108 "try.y"
                        {
                     char str[40];
                     strcpy(str, "\t");
@@ -1277,11 +1280,11 @@ yyreduce:
 
                     (yyval.string) = copiedString;
                 }
-#line 1281 "try.tab.c"
+#line 1284 "try.tab.c"
     break;
 
   case 10: /* statementsf: felements statementsf  */
-#line 118 "try.y"
+#line 121 "try.y"
                                    {
                     char str[40];
                     strcpy(str, "\t");
@@ -1297,11 +1300,11 @@ yyreduce:
 
                     (yyval.string) = copiedString;
             }
-#line 1301 "try.tab.c"
+#line 1304 "try.tab.c"
     break;
 
   case 11: /* statementsf: thingThatCanHappen statementsf  */
-#line 133 "try.y"
+#line 136 "try.y"
                                              {
                     char str[40];
                     strcpy(str, "\t");
@@ -1317,11 +1320,11 @@ yyreduce:
 
                     (yyval.string) = copiedString;
                 }
-#line 1321 "try.tab.c"
+#line 1324 "try.tab.c"
     break;
 
   case 13: /* declaration_list: declaration declaration_list  */
-#line 151 "try.y"
+#line 154 "try.y"
                                                {
                     char str[40];
                     strcpy(str, (yyvsp[-1].string));
@@ -1336,16 +1339,15 @@ yyreduce:
 
                     (yyval.string) = copiedString;
                  }
-#line 1340 "try.tab.c"
+#line 1343 "try.tab.c"
     break;
 
   case 14: /* lastdec: etype IDENTIFIER  */
-#line 167 "try.y"
+#line 170 "try.y"
                           {
+            //QUITAR TIPO
             char str[40];
-            strcpy(str, (yyvsp[-1].string));
-            strcat(str, " ");
-            strcat(str, (yyvsp[0].string));
+            strcpy(str, (yyvsp[0].string));
 
             size_t originalStringLength = strlen(str);
 
@@ -1356,15 +1358,15 @@ yyreduce:
 
             (yyval.string) = copiedString;
 }
-#line 1360 "try.tab.c"
+#line 1362 "try.tab.c"
     break;
 
   case 15: /* declaration: etype IDENTIFIER COLON  */
-#line 184 "try.y"
+#line 186 "try.y"
                                     {
+                //QUITAR TIPO
                 char str[40];
-                strcpy(str, (yyvsp[-2].string));
-                strcat(str, (yyvsp[-1].string));
+                strcpy(str, (yyvsp[-1].string));
                 size_t originalStringLength = strlen(str);
 
                 char *copiedString;
@@ -1374,11 +1376,11 @@ yyreduce:
 
                 (yyval.string) = copiedString;
                 }
-#line 1378 "try.tab.c"
+#line 1380 "try.tab.c"
     break;
 
   case 17: /* thingThatCanHappen: IDENTIFIER ASSIGN expression SEMICOLON  */
-#line 201 "try.y"
+#line 203 "try.y"
                                                             {
                         char str[40];
 
@@ -1393,11 +1395,11 @@ yyreduce:
 
                         (yyval.string) = copiedString;
                     }
-#line 1397 "try.tab.c"
+#line 1399 "try.tab.c"
     break;
 
   case 18: /* thingThatCanHappen: IDENTIFIER LPAREN funcCallList RPAREN SEMICOLON  */
-#line 215 "try.y"
+#line 217 "try.y"
                                                                      {
                         char str[40];
 
@@ -1412,11 +1414,11 @@ yyreduce:
 
                         (yyval.string) = copiedString;
                     }
-#line 1416 "try.tab.c"
+#line 1418 "try.tab.c"
     break;
 
   case 20: /* funcCallList: IDENTIFIER COLON funcCallList  */
-#line 232 "try.y"
+#line 234 "try.y"
                                              {
                     char str[40];
 
@@ -1431,16 +1433,15 @@ yyreduce:
 
                     (yyval.string) = copiedString;
                 }
-#line 1435 "try.tab.c"
+#line 1437 "try.tab.c"
     break;
 
   case 21: /* statement: etype IDENTIFIER ASSIGN expression SEMICOLON  */
-#line 249 "try.y"
+#line 251 "try.y"
                                                          {
+                //QUITAR TIPO
                 char str[40];
-                strcpy(str, (yyvsp[-4].string));
-                strcat(str, " ");
-                strcat(str, (yyvsp[-3].string));
+                strcpy(str, (yyvsp[-3].string));
                 strcat(str, " = ");
                 strcat(str, (yyvsp[-1].string));
                 size_t originalStringLength = strlen(str);
@@ -1452,15 +1453,16 @@ yyreduce:
 
                 (yyval.string) = copiedString;
             }
-#line 1456 "try.tab.c"
+#line 1457 "try.tab.c"
     break;
 
   case 22: /* elseOp: ELSE LBRACE statementsf RBRACE  */
-#line 267 "try.y"
+#line 268 "try.y"
                                        {
+            //TODO
             char str[1024];
 
-            sprintf(str, "else{\n%s\n}", (yyvsp[-1].string));
+            sprintf(str, "else:\n%s\n", (yyvsp[-1].string));
 
             size_t originalStringLength = strlen(str);
 
@@ -1471,15 +1473,16 @@ yyreduce:
 
             (yyval.string) = copiedString;
         }
-#line 1475 "try.tab.c"
+#line 1477 "try.tab.c"
     break;
 
   case 23: /* felements: IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp  */
-#line 283 "try.y"
+#line 285 "try.y"
                                                                          {
+            //TODO
             char str[2048];
 
-            sprintf(str, "if(%s){\n%s\n}%s", (yyvsp[-5].string), (yyvsp[-2].string), (yyvsp[0].string));
+            sprintf(str, "if(%s):\n%s\n%s", (yyvsp[-5].string), (yyvsp[-2].string), (yyvsp[0].string));
 
             size_t originalStringLength = strlen(str);
 
@@ -1490,15 +1493,16 @@ yyreduce:
 
             (yyval.string) = copiedString;
         }
-#line 1494 "try.tab.c"
+#line 1497 "try.tab.c"
     break;
 
   case 24: /* felements: IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE  */
-#line 298 "try.y"
+#line 301 "try.y"
                                                                {
+            //TODO
             char str[2048];
 
-            sprintf(str, "if(%s){\n%s\n}", (yyvsp[-4].string), (yyvsp[-1].string));
+            sprintf(str, "if(%s):\n%s\n", (yyvsp[-4].string), (yyvsp[-1].string));
 
             size_t originalStringLength = strlen(str);
 
@@ -1509,15 +1513,16 @@ yyreduce:
 
             (yyval.string) = copiedString;
         }
-#line 1513 "try.tab.c"
+#line 1517 "try.tab.c"
     break;
 
   case 25: /* felements: WHILE LPAREN boolElement RPAREN LBRACE statementsf RBRACE  */
-#line 313 "try.y"
+#line 317 "try.y"
                                                                    {
+            //TODO
             char str[2048];
 
-            sprintf(str, "while(%s){\n%s\n}", (yyvsp[-4].string), (yyvsp[-1].string));
+            sprintf(str, "while(%s):\n%s\n", (yyvsp[-4].string), (yyvsp[-1].string));
 
             size_t originalStringLength = strlen(str);
 
@@ -1528,11 +1533,11 @@ yyreduce:
 
             (yyval.string) = copiedString;
         }
-#line 1532 "try.tab.c"
+#line 1537 "try.tab.c"
     break;
 
   case 26: /* felements: RETURN expression SEMICOLON  */
-#line 327 "try.y"
+#line 332 "try.y"
                                      {
             char str[40];
 
@@ -1547,12 +1552,13 @@ yyreduce:
 
             (yyval.string) = copiedString;
         }
-#line 1551 "try.tab.c"
+#line 1556 "try.tab.c"
     break;
 
   case 27: /* felements: FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN LBRACE statementsf RBRACE  */
-#line 341 "try.y"
+#line 346 "try.y"
                                                                                                    {
+            //TODO
             char str[1024];
 
             sprintf(str, "for(%s;%s;%s){\n%s\n}", (yyvsp[-7].string), (yyvsp[-6].string), (yyvsp[-4].string), (yyvsp[-1].string));
@@ -1566,11 +1572,11 @@ yyreduce:
 
             (yyval.string) = copiedString;
         }
-#line 1570 "try.tab.c"
+#line 1576 "try.tab.c"
     break;
 
   case 28: /* actualizacion: IDENTIFIER ADD ADD  */
-#line 358 "try.y"
+#line 364 "try.y"
                                   {
                     char str[40];
 
@@ -1585,11 +1591,11 @@ yyreduce:
 
                     (yyval.string) = copiedString;
                 }
-#line 1589 "try.tab.c"
+#line 1595 "try.tab.c"
     break;
 
   case 29: /* actualizacion: IDENTIFIER SUB SUB  */
-#line 372 "try.y"
+#line 378 "try.y"
                                     {
                     char str[40];
 
@@ -1604,11 +1610,11 @@ yyreduce:
 
                     (yyval.string) = copiedString;
                 }
-#line 1608 "try.tab.c"
+#line 1614 "try.tab.c"
     break;
 
   case 30: /* actualizacion: IDENTIFIER ASSIGN expression  */
-#line 386 "try.y"
+#line 392 "try.y"
                                               {
                     char str[100];
 
@@ -1623,11 +1629,11 @@ yyreduce:
 
                     (yyval.string) = copiedString;
                 }
-#line 1627 "try.tab.c"
+#line 1633 "try.tab.c"
     break;
 
   case 31: /* boolElement: IDENTIFIER bcomparator expression  */
-#line 401 "try.y"
+#line 407 "try.y"
                                                {
                 char str[40];
                 strcpy(str, (yyvsp[-2].string));
@@ -1642,59 +1648,59 @@ yyreduce:
 
                 (yyval.string) = copiedString;
             }
-#line 1646 "try.tab.c"
+#line 1652 "try.tab.c"
     break;
 
   case 33: /* bcomparator: EQ  */
-#line 418 "try.y"
+#line 424 "try.y"
                  {
             (yyval.string) = "==";
         }
-#line 1654 "try.tab.c"
+#line 1660 "try.tab.c"
     break;
 
   case 34: /* bcomparator: NE  */
-#line 421 "try.y"
+#line 427 "try.y"
               {
             (yyval.string) = "!=";
         }
-#line 1662 "try.tab.c"
+#line 1668 "try.tab.c"
     break;
 
   case 35: /* bcomparator: GE  */
-#line 424 "try.y"
+#line 430 "try.y"
               {
             (yyval.string) = ">=";
         }
-#line 1670 "try.tab.c"
+#line 1676 "try.tab.c"
     break;
 
   case 36: /* bcomparator: GT  */
-#line 427 "try.y"
+#line 433 "try.y"
               {
             (yyval.string) = ">";
         }
-#line 1678 "try.tab.c"
+#line 1684 "try.tab.c"
     break;
 
   case 37: /* bcomparator: LE  */
-#line 430 "try.y"
+#line 436 "try.y"
               {
             (yyval.string) = "<=";
         }
-#line 1686 "try.tab.c"
+#line 1692 "try.tab.c"
     break;
 
   case 38: /* bcomparator: LT  */
-#line 433 "try.y"
+#line 439 "try.y"
               {
             (yyval.string) = "<";
         }
-#line 1694 "try.tab.c"
+#line 1700 "try.tab.c"
     break;
 
   case 40: /* expression: expression ADD term  */
-#line 439 "try.y"
+#line 445 "try.y"
                                  {
                 char str[40];
                 strcpy(str, (yyvsp[-2].string));
@@ -1710,11 +1716,11 @@ yyreduce:
 
                 (yyval.string) = copiedString;
             }
-#line 1714 "try.tab.c"
+#line 1720 "try.tab.c"
     break;
 
   case 41: /* expression: expression SUB term  */
-#line 454 "try.y"
+#line 460 "try.y"
                                  {
                 char str[40];
                 strcpy(str, (yyvsp[-2].string));
@@ -1730,11 +1736,11 @@ yyreduce:
 
                 (yyval.string) = copiedString;
             }
-#line 1734 "try.tab.c"
+#line 1740 "try.tab.c"
     break;
 
   case 43: /* term: term MUL factor  */
-#line 472 "try.y"
+#line 478 "try.y"
                        {
         char str[40];
         strcpy(str, (yyvsp[-2].string));
@@ -1750,11 +1756,11 @@ yyreduce:
 
         (yyval.string) = copiedString;
         }
-#line 1754 "try.tab.c"
+#line 1760 "try.tab.c"
     break;
 
   case 44: /* term: term DIV factor  */
-#line 487 "try.y"
+#line 493 "try.y"
                        {
         char str[40];
         strcpy(str, (yyvsp[-2].string));
@@ -1771,51 +1777,51 @@ yyreduce:
 
         (yyval.string) = copiedString;
         }
-#line 1775 "try.tab.c"
+#line 1781 "try.tab.c"
     break;
 
   case 47: /* factor: LPAREN expression RPAREN  */
-#line 507 "try.y"
+#line 513 "try.y"
                                   {
             (yyval.string) = (yyvsp[-1].string);
         }
-#line 1783 "try.tab.c"
+#line 1789 "try.tab.c"
     break;
 
   case 48: /* etype: INT  */
-#line 512 "try.y"
+#line 518 "try.y"
             {
             (yyval.string) = "int";
         }
-#line 1791 "try.tab.c"
+#line 1797 "try.tab.c"
     break;
 
   case 49: /* etype: FLOAT  */
-#line 515 "try.y"
+#line 521 "try.y"
                  {
             (yyval.string) = "float";
         }
-#line 1799 "try.tab.c"
+#line 1805 "try.tab.c"
     break;
 
   case 50: /* etype: DOUBLE  */
-#line 518 "try.y"
+#line 524 "try.y"
                   {
             (yyval.string) = "double";
         }
-#line 1807 "try.tab.c"
+#line 1813 "try.tab.c"
     break;
 
   case 51: /* etype: CHAR  */
-#line 521 "try.y"
+#line 527 "try.y"
                 {
             (yyval.string) = "char";
         }
-#line 1815 "try.tab.c"
+#line 1821 "try.tab.c"
     break;
 
 
-#line 1819 "try.tab.c"
+#line 1825 "try.tab.c"
 
       default: break;
     }
@@ -2008,7 +2014,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 527 "try.y"
+#line 533 "try.y"
 
 
 void yyerror(const char *s) {
@@ -2016,8 +2022,17 @@ void yyerror(const char *s) {
 }
 
 int main() {
+    
+    archivo = fopen("archivo.py", "w");
+
+    if (archivo == NULL) {
+        printf("No se pudo abrir el archivo.\n");
+        return 1;
+    }
 
     yyparse();
+
+    fclose(archivo);
     return 0;
 }
 

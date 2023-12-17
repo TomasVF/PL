@@ -80,7 +80,7 @@ funcs : etype IDENTIFIER LPAREN declaration_list RPAREN LBRACE statementsf RBRAC
             //QUITAR TIPO, PONER DEF, : FINALES
             char str[2048];
 
-            sprintf(str, "%s %s (%s){\n%s\n}\n", $1, $2, $4, $7);
+            sprintf(str, "def %s (%s):\n%s\n", $2, $4, $7);
 
             size_t originalStringLength = strlen(str);
 
@@ -170,9 +170,7 @@ declaration_list : lastdec
 lastdec : etype IDENTIFIER{
             //QUITAR TIPO
             char str[40];
-            strcpy(str, $1);
-            strcat(str, " ");
-            strcat(str, $2);
+            strcpy(str, $2);
 
             size_t originalStringLength = strlen(str);
 
@@ -188,8 +186,7 @@ lastdec : etype IDENTIFIER{
 declaration : etype IDENTIFIER COLON{
                 //QUITAR TIPO
                 char str[40];
-                strcpy(str, $1);
-                strcat(str, $2);
+                strcpy(str, $2);
                 size_t originalStringLength = strlen(str);
 
                 char *copiedString;
@@ -254,9 +251,7 @@ funcCallList : IDENTIFIER
 statement : etype IDENTIFIER ASSIGN expression SEMICOLON {
                 //QUITAR TIPO
                 char str[40];
-                strcpy(str, $1);
-                strcat(str, " ");
-                strcat(str, $2);
+                strcpy(str, $2);
                 strcat(str, " = ");
                 strcat(str, $4);
                 size_t originalStringLength = strlen(str);
@@ -274,7 +269,7 @@ elseOp : ELSE LBRACE statementsf RBRACE{
             //TODO
             char str[1024];
 
-            sprintf(str, "else{\n%s\n}", $3);
+            sprintf(str, "else:\n%s\n", $3);
 
             size_t originalStringLength = strlen(str);
 
@@ -291,7 +286,7 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
             //TODO
             char str[2048];
 
-            sprintf(str, "if(%s){\n%s\n}%s", $3, $6, $8);
+            sprintf(str, "if(%s):\n%s\n%s", $3, $6, $8);
 
             size_t originalStringLength = strlen(str);
 
@@ -307,7 +302,7 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
             //TODO
             char str[2048];
 
-            sprintf(str, "if(%s){\n%s\n}", $3, $6);
+            sprintf(str, "if(%s):\n%s\n", $3, $6);
 
             size_t originalStringLength = strlen(str);
 
@@ -323,7 +318,7 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
             //TODO
             char str[2048];
 
-            sprintf(str, "while(%s){\n%s\n}", $3, $6);
+            sprintf(str, "while(%s):\n%s\n", $3, $6);
 
             size_t originalStringLength = strlen(str);
 
