@@ -211,8 +211,7 @@ statement : etype IDENTIFIER ASSIGN expression SEMICOLON {
             }
           ;
 
-elseOp : 
-        | ELSE LBRACE statementsf RBRACE{
+elseOp : ELSE LBRACE statementsf RBRACE{
             char str[1024];
 
             sprintf(str, "else{\n%s\n}", $3);
@@ -229,6 +228,21 @@ elseOp :
         ;
 
 felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
+            char str[2048];
+
+            sprintf(str, "if(%s){\n%s\n}%s", $3, $6, $8);
+
+            size_t originalStringLength = strlen(str);
+
+            char *copiedString;
+            copiedString = (char *)malloc(originalStringLength+1);
+
+            strcpy(copiedString, str);
+
+            $$ = copiedString;
+        }
+
+        |IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE{
             char str[2048];
 
             sprintf(str, "if(%s){\n%s\n}", $3, $6);
