@@ -31,6 +31,8 @@ felements
 bcomparator
 elseOp
 actualizacion
+funcCallList
+thingThatCanHappen
 
 %%
 
@@ -39,9 +41,9 @@ program : statements {
         }
         ;
 
-statements : statement
+statements : thingThatCanHappen
            | funcs
-           | statement statements{
+           | thingThatCanHappen statements{
                 char str[40];
                 strcpy(str, $1);
                 strcat(str, "\n");
@@ -87,7 +89,7 @@ funcs : etype IDENTIFIER LPAREN declaration_list RPAREN LBRACE statementsf RBRAC
             $$ = copiedString;
         }
         ;
-statementsf : statement{
+statementsf : thingThatCanHappen{
                     char str[40];
                     strcpy(str, "\t");
                     strcat(str, $1);
@@ -128,7 +130,7 @@ statementsf : statement{
 
                     $$ = copiedString;
             }
-            | statement statementsf {
+            | thingThatCanHappen statementsf {
                     char str[40];
                     strcpy(str, "\t");
                     strcat(str, $1);
@@ -193,6 +195,56 @@ declaration : etype IDENTIFIER COLON{
                 $$ = copiedString;
                 }
             ;            
+
+
+thingThatCanHappen : statement
+                    | IDENTIFIER ASSIGN expression SEMICOLON{
+                        char str[40];
+
+                        sprintf(str, "%s = %s", $1, $3);
+                        
+                        size_t originalStringLength = strlen(str);
+
+                        char *copiedString;
+                        copiedString = (char *)malloc(originalStringLength+1);
+
+                        strcpy(copiedString, str);
+
+                        $$ = copiedString;
+                    }
+                    | IDENTIFIER LPAREN funcCallList RPAREN SEMICOLON{
+                        char str[40];
+
+                        sprintf(str, "%s(%s)", $1, $3);
+                        
+                        size_t originalStringLength = strlen(str);
+
+                        char *copiedString;
+                        copiedString = (char *)malloc(originalStringLength+1);
+
+                        strcpy(copiedString, str);
+
+                        $$ = copiedString;
+                    }
+                ;
+
+funcCallList : IDENTIFIER
+             | IDENTIFIER COLON funcCallList {
+                    char str[40];
+
+                    sprintf(str, "%s, %s", $1, $3);
+                    
+                    size_t originalStringLength = strlen(str);
+
+                    char *copiedString;
+                    copiedString = (char *)malloc(originalStringLength+1);
+
+                    strcpy(copiedString, str);
+
+                    $$ = copiedString;
+                }
+        
+        ;
 
 statement : etype IDENTIFIER ASSIGN expression SEMICOLON {
                 char str[40];
