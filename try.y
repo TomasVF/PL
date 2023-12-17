@@ -30,6 +30,7 @@ boolElement
 felements
 bcomparator
 elseOp
+actualizacion
 
 %%
 
@@ -285,8 +286,65 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
 
             $$ = copiedString;
         }
+        | FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN LBRACE statementsf RBRACE{
+            char str[1024];
+
+            sprintf(str, "for(%s;%s;%s){\n%s\n}", $3, $4, $6, $9);
+
+            size_t originalStringLength = strlen(str);
+
+            char *copiedString;
+            copiedString = (char *)malloc(originalStringLength+1);
+
+            strcpy(copiedString, str);
+
+            $$ = copiedString;
+        }
 
         ;
+
+actualizacion : IDENTIFIER ADD ADD{
+                    char str[40];
+
+                    sprintf(str, "%s++", $1);
+
+                    size_t originalStringLength = strlen(str);
+
+                    char *copiedString;
+                    copiedString = (char *)malloc(originalStringLength+1);
+
+                    strcpy(copiedString, str);
+
+                    $$ = copiedString;
+                }
+                | IDENTIFIER SUB SUB{
+                    char str[40];
+
+                    sprintf(str, "%s--", $1);
+
+                    size_t originalStringLength = strlen(str);
+
+                    char *copiedString;
+                    copiedString = (char *)malloc(originalStringLength+1);
+
+                    strcpy(copiedString, str);
+
+                    $$ = copiedString;
+                }
+                | IDENTIFIER ASSIGN expression{
+                    char str[100];
+
+                    sprintf(str, "%s = %s", $1, $3);
+
+                    size_t originalStringLength = strlen(str);
+
+                    char *copiedString;
+                    copiedString = (char *)malloc(originalStringLength+1);
+
+                    strcpy(copiedString, str);
+
+                    $$ = copiedString;
+                }
 
 boolElement : IDENTIFIER bcomparator expression{
                 char str[40];
