@@ -8,4 +8,5 @@ int a (int b, int a){
     while(a){
         int g = 2;
     }
+    return b;
 }

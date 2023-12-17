@@ -271,6 +271,20 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
 
             $$ = copiedString;
         }
+        | RETURN expression SEMICOLON{
+            char str[40];
+
+            sprintf(str, "return %s", $2);
+
+            size_t originalStringLength = strlen(str);
+
+            char *copiedString;
+            copiedString = (char *)malloc(originalStringLength+1);
+
+            strcpy(copiedString, str);
+
+            $$ = copiedString;
+        }
 
         ;
 
