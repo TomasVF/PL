@@ -1,11 +1,12 @@
 %{
 #include <stdlib.h>
 #include "try.tab.h"
+int line_num = 1;
 %}
 
 %%
-
-[ \t\n]                       ; /* Ignoring whitespace */
+[\n]                        {line_num++;}
+[ \t]                       ; /* Ignoring whitespace */
 "int"                       { return INT; }
 "float"                     { return FLOAT; }
 "double"                    { return DOUBLE; }
@@ -35,7 +36,7 @@
 "<"                         { return LT; }
 "'"[^ ''' ';' '\n']*"'"     {  yylval.string=strdup(yytext); return CHARVALUE;  }
 [a-zA-Z][a-zA-Z0-9_]*       { yylval.string=strdup(yytext); return IDENTIFIER; }
-([0-9]+"."[0-9]+|[0-9]+)           { yylval.string=strdup(yytext); return INTEGER; }
+([0-9]+"."[0-9]+|[0-9]+)    { yylval.string=strdup(yytext); return INTEGER; }
 
 
 .                           { }

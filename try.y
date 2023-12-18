@@ -7,6 +7,7 @@ FILE *archivo;
 int nTabs;
 extern int yylex();
 extern int yyparse();
+extern int line_num;
 void yyerror(const char *s);
 
 void addTab(){
@@ -14,7 +15,7 @@ void addTab(){
 }
 %}
 
-%token DUMMY ADD SUB MUL DIV ASSIGN SEMICOLON LPAREN RPAREN INT FLOAT DOUBLE CHAR VOID COLON LBRACE RBRACE RETURN IF ELSE WHILE FOR EQ NE GE GT LE LT
+%token ADD SUB MUL DIV ASSIGN SEMICOLON LPAREN RPAREN INT FLOAT DOUBLE CHAR VOID COLON LBRACE RBRACE RETURN IF ELSE WHILE FOR EQ NE GE GT LE LT
 
 %union {
     char *string;
@@ -79,7 +80,38 @@ statements : thingThatCanHappen
 
                 $$ = copiedString;
            }
+           | error_handling{exit(2);} // New rule for error handling
+           | felements{printf("Error de compilación en la línea: %d", line_num);
+                        exit(2);}
            ;
+
+error_handling : IDENTIFIER{printf("Error de compilación en la línea: %d", line_num);
+                        exit(2);}
+            | COLON{printf("Error de compilación en la línea: %d", line_num);
+                        exit(2);}
+            | etype {printf("Error de compilación en la línea: %d", line_num);
+                        exit(2);}
+            | bcomparator {printf("Error de compilación en la línea: %d", line_num);
+                        exit(2);}
+            | SUB{printf("Error de compilación en la línea: %d", line_num);
+                        exit(2);}
+            | LPAREN{printf("Error de compilación en la línea: %d", line_num);
+                exit(2);}
+            | RPAREN{printf("Error de compilación en la línea: %d", line_num);
+                exit(2);}
+            | ADD{printf("Error de compilación en la línea: %d", line_num);
+                exit(2);}
+            | LBRACE{printf("Error de compilación en la línea: %d", line_num);
+                exit(2);}
+            | RBRACE{printf("Error de compilación en la línea: %d", line_num);
+                exit(2);}
+            | DIV{printf("Error de compilación en la línea: %d", line_num);
+                exit(2);}
+            | MUL{printf("Error de compilación en la línea: %d", line_num);
+                exit(2);}
+            | ASSIGN{printf("Error de compilación en la línea: %d", line_num);
+                exit(2);}
+            ;
 
 lbrace : LBRACE{nTabs++;}
     ;

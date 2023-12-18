@@ -7,6 +7,7 @@ int a(int b){
     }
 }
 
+
 int v(int b){    
 
     int digito=0;
