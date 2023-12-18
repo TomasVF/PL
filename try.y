@@ -33,7 +33,6 @@ declaration
 declaration_list 
 statements 
 statement 
-statementsf
 boolElement
 felements
 bcomparator
@@ -41,6 +40,7 @@ elseOp
 actualizacion
 funcCallList
 thingThatCanHappen
+loopsAndThings
 
 %%
 
@@ -80,36 +80,34 @@ statements : thingThatCanHappen
 
                 $$ = copiedString;
            }
-           | error_handling{exit(2);} // New rule for error handling
-           | felements{printf("Error de compilación en la línea: %d", line_num);
+           | error_handling{exit(2);} 
+           | loopsAndThings{printf("Error de compilación en la línea: %d\n", line_num);
                         exit(2);}
            ;
 
-error_handling : IDENTIFIER{printf("Error de compilación en la línea: %d", line_num);
+error_handling : IDENTIFIER{printf("Error de compilación en la línea: %d\n", line_num);
                         exit(2);}
-            | COLON{printf("Error de compilación en la línea: %d", line_num);
+            | COLON{printf("Error de compilación en la línea: %d\n", line_num);
                         exit(2);}
-            | etype {printf("Error de compilación en la línea: %d", line_num);
+            | etype {printf("Error de compilación en la línea: %d\n", line_num);
                         exit(2);}
-            | bcomparator {printf("Error de compilación en la línea: %d", line_num);
+            | bcomparator {printf("Error de compilación en la línea: %d\n", line_num);
                         exit(2);}
-            | SUB{printf("Error de compilación en la línea: %d", line_num);
+            | SUB{printf("Error de compilación en la línea: %d\n", line_num);
                         exit(2);}
-            | LPAREN{printf("Error de compilación en la línea: %d", line_num);
+            | LPAREN{printf("Error de compilación en la línea: %d\n", line_num);
                 exit(2);}
-            | RPAREN{printf("Error de compilación en la línea: %d", line_num);
+            | RPAREN{printf("Error de compilación en la línea: %d\n", line_num);
                 exit(2);}
-            | ADD{printf("Error de compilación en la línea: %d", line_num);
+            | ADD{printf("Error de compilación en la línea: %d\n", line_num);
                 exit(2);}
-            | LBRACE{printf("Error de compilación en la línea: %d", line_num);
+            | LBRACE{printf("Error de compilación en la línea: %d\n", line_num);
                 exit(2);}
-            | RBRACE{printf("Error de compilación en la línea: %d", line_num);
+            | DIV{printf("Error de compilación en la línea: %d\n", line_num);
                 exit(2);}
-            | DIV{printf("Error de compilación en la línea: %d", line_num);
+            | MUL{printf("Error de compilación en la línea: %d\n", line_num);
                 exit(2);}
-            | MUL{printf("Error de compilación en la línea: %d", line_num);
-                exit(2);}
-            | ASSIGN{printf("Error de compilación en la línea: %d", line_num);
+            | ASSIGN{printf("Error de compilación en la línea: %d\n", line_num);
                 exit(2);}
             ;
 
@@ -120,7 +118,7 @@ rbrace : RBRACE{nTabs--;}
     ;
 
 
-funcs : etype IDENTIFIER LPAREN declaration_list RPAREN lbrace statementsf rbrace {
+funcs : etype IDENTIFIER LPAREN declaration_list RPAREN lbrace felements rbrace {
 
 
 
@@ -145,84 +143,7 @@ funcs : etype IDENTIFIER LPAREN declaration_list RPAREN lbrace statementsf rbrac
             $$ = copiedString;
         }
         ;
-statementsf : thingThatCanHappen{
-                    char str[40];
-                    if(nTabs > 0){
-                        strcpy(str, "\t");
-                        for(int i = 1; i<nTabs;i++){
-                            strcat(str, "\t");
-                        }
-                    }
-                    strcat(str, $1);
-                    size_t originalStringLength = strlen(str);
 
-                    char *copiedString;
-                    copiedString = (char *)malloc(originalStringLength+1);
-
-                    strcpy(copiedString, str);
-
-                    $$ = copiedString;
-                }
-            | felements{
-                    char str[40];
-                    if(nTabs > 0){
-                        strcpy(str, "\t");
-                        for(int i = 1; i<nTabs;i++){
-                            strcat(str, "\t");
-                        }
-                    }
-                    strcat(str, $1);
-                    size_t originalStringLength = strlen(str);
-
-                    char *copiedString;
-                    copiedString = (char *)malloc(originalStringLength+1);
-
-                    strcpy(copiedString, str);
-
-                    $$ = copiedString;
-                }
-            | felements statementsf{
-                    char str[40];
-                    if(nTabs > 0){
-                        strcpy(str, "\t");
-                        for(int i = 1; i<nTabs;i++){
-                            strcat(str, "\t");
-                        }
-                    }
-                    strcat(str, $1);
-                    strcat(str, "\n");
-                    strcat(str, $2);
-                    size_t originalStringLength = strlen(str);
-
-                    char *copiedString;
-                    copiedString = (char *)malloc(originalStringLength+1);
-
-                    strcpy(copiedString, str);
-
-                    $$ = copiedString;
-            }
-            | thingThatCanHappen statementsf {
-                    char str[40];
-                    if(nTabs > 0){
-                        strcpy(str, "\t");
-                        for(int i = 1; i<nTabs;i++){
-                            strcat(str, "\t");
-                        }
-                    }
-                    strcat(str, $1);
-                    strcat(str, "\n");
-                    strcat(str, $2);
-                    size_t originalStringLength = strlen(str);
-
-                    char *copiedString;
-                    copiedString = (char *)malloc(originalStringLength+1);
-
-                    strcpy(copiedString, str);
-
-                    $$ = copiedString;
-                }
-            
-            ;
 declaration_list : lastdec
                  | declaration declaration_list{
                     char str[40];
@@ -241,6 +162,7 @@ declaration_list : lastdec
                  |{
                     $$ = "";
                  }
+
                  ;
 
 lastdec : etype IDENTIFIER{
@@ -357,7 +279,7 @@ statement : etype IDENTIFIER ASSIGN expression SEMICOLON {
             }
           ;
 
-elseOp : ELSE lbrace statementsf rbrace{
+elseOp : ELSE lbrace felements rbrace{
             //TODO
             char str[1024];
 
@@ -374,7 +296,7 @@ elseOp : ELSE lbrace statementsf rbrace{
         }
         ;
 
-felements : IF LPAREN boolElement RPAREN lbrace statementsf rbrace elseOp{
+loopsAndThings : IF LPAREN boolElement RPAREN lbrace felements rbrace elseOp{
             //TODO
             char str[2048];
 
@@ -397,7 +319,7 @@ felements : IF LPAREN boolElement RPAREN lbrace statementsf rbrace elseOp{
             $$ = copiedString;
         }
 
-        |IF LPAREN boolElement RPAREN lbrace statementsf rbrace{
+        |IF LPAREN boolElement RPAREN lbrace felements rbrace{
             //TODO
             char str[2048];
 
@@ -413,7 +335,7 @@ felements : IF LPAREN boolElement RPAREN lbrace statementsf rbrace elseOp{
             $$ = copiedString;
         }
 
-        | WHILE LPAREN boolElement RPAREN lbrace statementsf rbrace{
+        | WHILE LPAREN boolElement RPAREN lbrace felements rbrace{
             //TODO
             char str[2048];
 
@@ -442,7 +364,7 @@ felements : IF LPAREN boolElement RPAREN lbrace statementsf rbrace elseOp{
 
             $$ = copiedString;
         }
-        | FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace statementsf rbrace{
+        | FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace{
 
             char delimitador[] = "= ";
             char *nombreVariable = strtok($3, delimitador);
@@ -520,6 +442,85 @@ felements : IF LPAREN boolElement RPAREN lbrace statementsf rbrace elseOp{
 
             $$ = copiedString;
         }
+;
+
+felements : thingThatCanHappen{
+                    char str[40];
+                    if(nTabs > 0){
+                        strcpy(str, "\t");
+                        for(int i = 1; i<nTabs;i++){
+                            strcat(str, "\t");
+                        }
+                    }
+                    strcat(str, $1);
+                    size_t originalStringLength = strlen(str);
+
+                    char *copiedString;
+                    copiedString = (char *)malloc(originalStringLength+1);
+
+                    strcpy(copiedString, str);
+
+                    $$ = copiedString;
+                }
+        | loopsAndThings{
+                    char str[40];
+                    if(nTabs > 0){
+                        strcpy(str, "\t");
+                        for(int i = 1; i<nTabs;i++){
+                            strcat(str, "\t");
+                        }
+                    }
+                    strcat(str, $1);
+                    size_t originalStringLength = strlen(str);
+
+                    char *copiedString;
+                    copiedString = (char *)malloc(originalStringLength+1);
+
+                    strcpy(copiedString, str);
+
+                    $$ = copiedString;
+                }
+        | thingThatCanHappen felements{
+                    char str[40];
+                    if(nTabs > 0){
+                        strcpy(str, "\t");
+                        for(int i = 1; i<nTabs;i++){
+                            strcat(str, "\t");
+                        }
+                    }
+                    strcat(str, $1);
+                    strcat(str, "\n");
+                    strcat(str, $2);
+                    size_t originalStringLength = strlen(str);
+
+                    char *copiedString;
+                    copiedString = (char *)malloc(originalStringLength+1);
+
+                    strcpy(copiedString, str);
+
+                    $$ = copiedString;
+            }
+        | loopsAndThings felements{
+                    char str[40];
+                    if(nTabs > 0){
+                        strcpy(str, "\t");
+                        for(int i = 1; i<nTabs;i++){
+                            strcat(str, "\t");
+                        }
+                    }
+                    strcat(str, $1);
+                    strcat(str, "\n");
+                    strcat(str, $2);
+                    size_t originalStringLength = strlen(str);
+
+                    char *copiedString;
+                    copiedString = (char *)malloc(originalStringLength+1);
+
+                    strcpy(copiedString, str);
+
+                    $$ = copiedString;
+            }
+            | error_handling{exit(2);} 
 
         ;
 
