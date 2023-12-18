@@ -4,12 +4,17 @@
 #include <stdlib.h>
 #include <string.h>
 FILE *archivo;
+int nTabs;
 extern int yylex();
 extern int yyparse();
 void yyerror(const char *s);
+
+void addTab(){
+    nTabs++;
+}
 %}
 
-%token ADD SUB MUL DIV ASSIGN SEMICOLON LPAREN RPAREN INT FLOAT DOUBLE CHAR VOID COLON LBRACE RBRACE RETURN IF ELSE WHILE FOR EQ NE GE GT LE LT
+%token DUMMY ADD SUB MUL DIV ASSIGN SEMICOLON LPAREN RPAREN INT FLOAT DOUBLE CHAR VOID COLON LBRACE RBRACE RETURN IF ELSE WHILE FOR EQ NE GE GT LE LT
 
 %union {
     char *string;
@@ -76,7 +81,14 @@ statements : thingThatCanHappen
            }
            ;
 
-funcs : etype IDENTIFIER LPAREN declaration_list RPAREN LBRACE statementsf RBRACE {
+lbrace : LBRACE{nTabs++;}
+    ;
+
+rbrace : RBRACE{nTabs--;}
+    ;
+
+
+funcs : etype IDENTIFIER LPAREN declaration_list RPAREN lbrace statementsf rbrace {
 
 
 
@@ -84,7 +96,7 @@ funcs : etype IDENTIFIER LPAREN declaration_list RPAREN LBRACE statementsf RBRAC
             char str[2048];
 
             if(strcmp($2, "main")==0){
-                sprintf(str, "def %s(%s):\n%s\n%s", $2, $4, $7, "if __name__ == '__main__':\n\tmain()\n");
+                sprintf(str, "def %s(%s):\n%s\n%s", $2, $4, $7, "\nif __name__ == '__main__':\n\tmain()\n");
             }else{
                 sprintf(str, "def %s(%s):\n%s\n", $2, $4, $7);
             }
@@ -103,7 +115,12 @@ funcs : etype IDENTIFIER LPAREN declaration_list RPAREN LBRACE statementsf RBRAC
         ;
 statementsf : thingThatCanHappen{
                     char str[40];
-                    strcpy(str, "\t");
+                    if(nTabs > 0){
+                        strcpy(str, "\t");
+                        for(int i = 1; i<nTabs;i++){
+                            strcat(str, "\t");
+                        }
+                    }
                     strcat(str, $1);
                     size_t originalStringLength = strlen(str);
 
@@ -116,7 +133,12 @@ statementsf : thingThatCanHappen{
                 }
             | felements{
                     char str[40];
-                    strcpy(str, "\t");
+                    if(nTabs > 0){
+                        strcpy(str, "\t");
+                        for(int i = 1; i<nTabs;i++){
+                            strcat(str, "\t");
+                        }
+                    }
                     strcat(str, $1);
                     size_t originalStringLength = strlen(str);
 
@@ -129,7 +151,12 @@ statementsf : thingThatCanHappen{
                 }
             | felements statementsf{
                     char str[40];
-                    strcpy(str, "\t");
+                    if(nTabs > 0){
+                        strcpy(str, "\t");
+                        for(int i = 1; i<nTabs;i++){
+                            strcat(str, "\t");
+                        }
+                    }
                     strcat(str, $1);
                     strcat(str, "\n");
                     strcat(str, $2);
@@ -144,7 +171,12 @@ statementsf : thingThatCanHappen{
             }
             | thingThatCanHappen statementsf {
                     char str[40];
-                    strcpy(str, "\t");
+                    if(nTabs > 0){
+                        strcpy(str, "\t");
+                        for(int i = 1; i<nTabs;i++){
+                            strcat(str, "\t");
+                        }
+                    }
                     strcat(str, $1);
                     strcat(str, "\n");
                     strcat(str, $2);
@@ -293,7 +325,7 @@ statement : etype IDENTIFIER ASSIGN expression SEMICOLON {
             }
           ;
 
-elseOp : ELSE LBRACE statementsf RBRACE{
+elseOp : ELSE lbrace statementsf rbrace{
             //TODO
             char str[1024];
 
@@ -310,11 +342,18 @@ elseOp : ELSE LBRACE statementsf RBRACE{
         }
         ;
 
-felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
+felements : IF LPAREN boolElement RPAREN lbrace statementsf rbrace elseOp{
             //TODO
             char str[2048];
 
-            sprintf(str, "if(%s):\n%s\n%s", $3, $6, $8);
+            sprintf(str, "if(%s):\n%s\n", $3, $6);
+
+            if(nTabs > 0){
+                for(int i = 0; i<nTabs;i++){
+                    strcat(str, "\t");
+                }
+                strcat(str, $8);
+            }
 
             size_t originalStringLength = strlen(str);
 
@@ -326,7 +365,7 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
             $$ = copiedString;
         }
 
-        |IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE{
+        |IF LPAREN boolElement RPAREN lbrace statementsf rbrace{
             //TODO
             char str[2048];
 
@@ -342,7 +381,7 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
             $$ = copiedString;
         }
 
-        | WHILE LPAREN boolElement RPAREN LBRACE statementsf RBRACE{
+        | WHILE LPAREN boolElement RPAREN lbrace statementsf rbrace{
             //TODO
             char str[2048];
 
@@ -371,7 +410,7 @@ felements : IF LPAREN boolElement RPAREN LBRACE statementsf RBRACE elseOp{
 
             $$ = copiedString;
         }
-        | FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN LBRACE statementsf RBRACE{
+        | FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace statementsf rbrace{
 
             char delimitador[] = "= ";
             char *nombreVariable = strtok($3, delimitador);

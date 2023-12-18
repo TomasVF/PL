@@ -54,36 +54,37 @@ extern int yydebug;
     YYEOF = 0,                     /* "end of file"  */
     YYerror = 256,                 /* error  */
     YYUNDEF = 257,                 /* "invalid token"  */
-    ADD = 258,                     /* ADD  */
-    SUB = 259,                     /* SUB  */
-    MUL = 260,                     /* MUL  */
-    DIV = 261,                     /* DIV  */
-    ASSIGN = 262,                  /* ASSIGN  */
-    SEMICOLON = 263,               /* SEMICOLON  */
-    LPAREN = 264,                  /* LPAREN  */
-    RPAREN = 265,                  /* RPAREN  */
-    INT = 266,                     /* INT  */
-    FLOAT = 267,                   /* FLOAT  */
-    DOUBLE = 268,                  /* DOUBLE  */
-    CHAR = 269,                    /* CHAR  */
-    VOID = 270,                    /* VOID  */
-    COLON = 271,                   /* COLON  */
-    LBRACE = 272,                  /* LBRACE  */
-    RBRACE = 273,                  /* RBRACE  */
-    RETURN = 274,                  /* RETURN  */
-    IF = 275,                      /* IF  */
-    ELSE = 276,                    /* ELSE  */
-    WHILE = 277,                   /* WHILE  */
-    FOR = 278,                     /* FOR  */
-    EQ = 279,                      /* EQ  */
-    NE = 280,                      /* NE  */
-    GE = 281,                      /* GE  */
-    GT = 282,                      /* GT  */
-    LE = 283,                      /* LE  */
-    LT = 284,                      /* LT  */
-    IDENTIFIER = 285,              /* IDENTIFIER  */
-    INTEGER = 286,                 /* INTEGER  */
-    CHARVALUE = 287                /* CHARVALUE  */
+    DUMMY = 258,                   /* DUMMY  */
+    ADD = 259,                     /* ADD  */
+    SUB = 260,                     /* SUB  */
+    MUL = 261,                     /* MUL  */
+    DIV = 262,                     /* DIV  */
+    ASSIGN = 263,                  /* ASSIGN  */
+    SEMICOLON = 264,               /* SEMICOLON  */
+    LPAREN = 265,                  /* LPAREN  */
+    RPAREN = 266,                  /* RPAREN  */
+    INT = 267,                     /* INT  */
+    FLOAT = 268,                   /* FLOAT  */
+    DOUBLE = 269,                  /* DOUBLE  */
+    CHAR = 270,                    /* CHAR  */
+    VOID = 271,                    /* VOID  */
+    COLON = 272,                   /* COLON  */
+    LBRACE = 273,                  /* LBRACE  */
+    RBRACE = 274,                  /* RBRACE  */
+    RETURN = 275,                  /* RETURN  */
+    IF = 276,                      /* IF  */
+    ELSE = 277,                    /* ELSE  */
+    WHILE = 278,                   /* WHILE  */
+    FOR = 279,                     /* FOR  */
+    EQ = 280,                      /* EQ  */
+    NE = 281,                      /* NE  */
+    GE = 282,                      /* GE  */
+    GT = 283,                      /* GT  */
+    LE = 284,                      /* LE  */
+    LT = 285,                      /* LT  */
+    IDENTIFIER = 286,              /* IDENTIFIER  */
+    INTEGER = 287,                 /* INTEGER  */
+    CHARVALUE = 288                /* CHARVALUE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -92,46 +93,47 @@ extern int yydebug;
 #define YYEOF 0
 #define YYerror 256
 #define YYUNDEF 257
-#define ADD 258
-#define SUB 259
-#define MUL 260
-#define DIV 261
-#define ASSIGN 262
-#define SEMICOLON 263
-#define LPAREN 264
-#define RPAREN 265
-#define INT 266
-#define FLOAT 267
-#define DOUBLE 268
-#define CHAR 269
-#define VOID 270
-#define COLON 271
-#define LBRACE 272
-#define RBRACE 273
-#define RETURN 274
-#define IF 275
-#define ELSE 276
-#define WHILE 277
-#define FOR 278
-#define EQ 279
-#define NE 280
-#define GE 281
-#define GT 282
-#define LE 283
-#define LT 284
-#define IDENTIFIER 285
-#define INTEGER 286
-#define CHARVALUE 287
+#define DUMMY 258
+#define ADD 259
+#define SUB 260
+#define MUL 261
+#define DIV 262
+#define ASSIGN 263
+#define SEMICOLON 264
+#define LPAREN 265
+#define RPAREN 266
+#define INT 267
+#define FLOAT 268
+#define DOUBLE 269
+#define CHAR 270
+#define VOID 271
+#define COLON 272
+#define LBRACE 273
+#define RBRACE 274
+#define RETURN 275
+#define IF 276
+#define ELSE 277
+#define WHILE 278
+#define FOR 279
+#define EQ 280
+#define NE 281
+#define GE 282
+#define GT 283
+#define LE 284
+#define LT 285
+#define IDENTIFIER 286
+#define INTEGER 287
+#define CHARVALUE 288
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 14 "try.y"
+#line 19 "try.y"
 
     char *string;
 
-#line 135 "try.tab.h"
+#line 137 "try.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
