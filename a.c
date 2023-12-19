@@ -7,6 +7,10 @@ int a(int b){
     }
 }
 
+/*hola
+que typedef
+estamos*/
+
 int v(int b){    
 
     int digito=0;
@@ -16,14 +20,15 @@ int v(int b){
     }
 }
 
-int c(int d){
+//hola
+
+void c(int d){
     if (d > 3){
         d = d+1;
     }else{
         d = d-1;
     }
-    float a = 4;
-    char v = 'v';
+    int v = 'v';
     return 1;
 }
 

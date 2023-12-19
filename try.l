@@ -2,6 +2,18 @@
 #include <stdlib.h>
 #include "try.tab.h"
 int line_num = 1;
+int contarRepeticiones(const char *cadena, char simbolo) {
+    int contador = 0;
+    size_t longitud = strlen(cadena);
+
+    for (size_t i = 0; i < longitud; ++i) {
+        if (cadena[i] == simbolo) {
+            contador++;
+        }
+    }
+
+    return contador;
+}
 %}
 
 %%
@@ -34,6 +46,8 @@ int line_num = 1;
 ">"                         { return GT; }
 "<="                        { return LE; }
 "<"                         { return LT; }
+"//"[^'\n']*                 { yylval.string=strdup(yytext); return COMENTARIOLINEA; }
+"/*""/"*([^*/]|[^*]"/"|"*"[^/])*"*"*"*/" { line_num += contarRepeticiones(strdup(yytext), '\n');yylval.string=strdup(yytext); return COMENTARIOCONJUNTO; }
 "'"[^ ''' ';' '\n']*"'"     {  yylval.string=strdup(yytext); return CHARVALUE;  }
 [a-zA-Z][a-zA-Z0-9_]*       { yylval.string=strdup(yytext); return IDENTIFIER; }
 ([0-9]+"."[0-9]+|[0-9]+)    { yylval.string=strdup(yytext); return INTEGER; }

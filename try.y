@@ -13,6 +13,38 @@ void yyerror(const char *s);
 void addTab(){
     nTabs++;
 }
+
+
+char * getSubstringAfter(const char *inputString, const char *searchString) {
+    char *output = (char *)malloc(1024);
+    const char *startPtr = strstr(inputString, searchString);
+
+    if (startPtr != NULL) {
+        startPtr += strlen(searchString);
+        strcpy(output, startPtr);
+    } else {
+        strcpy(output, "");
+    }
+    return output;
+}
+
+char * extractSubstring(const char *inputString, const char *startMarker, const char *endMarker) {
+    char *output = (char *)malloc(1024);
+    const char *startPtr = strstr(inputString, startMarker);
+    
+    if (startPtr != NULL) {
+        startPtr += strlen(startMarker);
+        const char *endPtr = strstr(startPtr, endMarker);
+        
+        if (endPtr != NULL) {
+            size_t length = endPtr - startPtr;
+            strncpy(output, startPtr, length);
+            output[length] = '\0';
+        }
+    }
+    return output;
+}
+
 %}
 
 %token ADD SUB MUL DIV ASSIGN SEMICOLON LPAREN RPAREN INT FLOAT DOUBLE CHAR VOID COLON LBRACE RBRACE RETURN IF ELSE WHILE FOR EQ NE GE GT LE LT
@@ -21,7 +53,7 @@ void addTab(){
     char *string;
 }
 
-%token <string> IDENTIFIER INTEGER CHARVALUE
+%token <string> IDENTIFIER INTEGER CHARVALUE COMENTARIOCONJUNTO COMENTARIOLINEA
 
 %type <string> expression 
 term 
@@ -52,6 +84,64 @@ program : statements {
 
 statements : thingThatCanHappen
            | funcs
+           | COMENTARIOCONJUNTO{
+                char str[40];
+                strcpy(str, "\"\"\"");
+                strcat(str, extractSubstring($1, "/*", "*/"));
+                strcat(str, "\"\"\"\n");
+                size_t originalStringLength = strlen(str);
+
+                char *copiedString;
+                copiedString = (char *)malloc(originalStringLength+1);
+
+                strcpy(copiedString, str);
+
+                $$ = copiedString;
+           }
+           | COMENTARIOCONJUNTO statements{
+                char str[40];
+                strcpy(str, "\"\"\"");
+                strcat(str, extractSubstring($1, "/*", "*/"));
+                strcat(str, "\"\"\"\n");
+                strcat(str, $2);
+                size_t originalStringLength = strlen(str);
+
+                char *copiedString;
+                copiedString = (char *)malloc(originalStringLength+1);
+
+                strcpy(copiedString, str);
+
+                $$ = copiedString;
+           }
+           | COMENTARIOLINEA{
+                char str[40];
+                strcpy(str, "#");
+                strcat(str, getSubstringAfter($1, "//"));
+                strcat(str, "\n");
+                size_t originalStringLength = strlen(str);
+
+                char *copiedString;
+                copiedString = (char *)malloc(originalStringLength+1);
+
+                strcpy(copiedString, str);
+
+                $$ = copiedString;
+           }
+           | COMENTARIOLINEA statements{
+                char str[40];
+                strcpy(str, "#");
+                strcat(str, getSubstringAfter($1, "//"));
+                strcat(str, "\n");
+                strcat(str, $2);
+                size_t originalStringLength = strlen(str);
+
+                char *copiedString;
+                copiedString = (char *)malloc(originalStringLength+1);
+
+                strcpy(copiedString, str);
+
+                $$ = copiedString;
+           }
            | thingThatCanHappen statements{
                 char str[40];
                 strcpy(str, $1);
@@ -81,33 +171,33 @@ statements : thingThatCanHappen
                 $$ = copiedString;
            }
            | error_handling{exit(2);} 
-           | loopsAndThings{printf("Error de compilación en la línea: %d\n", line_num);
+           | loopsAndThings{printf("No se pueden escribir estas cosas fuera de funciones: %d\n", line_num);
                         exit(2);}
            ;
 
-error_handling : IDENTIFIER{printf("Error de compilación en la línea: %d\n", line_num);
+error_handling : IDENTIFIER{printf("Nombre de variable en lugar erróneo, línea: %d\n", line_num);
                         exit(2);}
-            | COLON{printf("Error de compilación en la línea: %d\n", line_num);
+            | COLON{printf("Símbolo , en lugar erróneo, línea: %d\n", line_num);
                         exit(2);}
-            | etype {printf("Error de compilación en la línea: %d\n", line_num);
+            | etype {printf("Identificador de tipo en lugar erróneo, línea: %d\n", line_num);
                         exit(2);}
-            | bcomparator {printf("Error de compilación en la línea: %d\n", line_num);
+            | bcomparator {printf("Comparador en lugar erróneo, línea: %d\n", line_num);
                         exit(2);}
-            | SUB{printf("Error de compilación en la línea: %d\n", line_num);
+            | SUB{printf("Símbolo - en lugar erróneo, línea: %d\n", line_num);
                         exit(2);}
-            | LPAREN{printf("Error de compilación en la línea: %d\n", line_num);
+            | LPAREN{printf("Símbolo ( en lugar erróneo, línea: %d\n", line_num);
                 exit(2);}
-            | RPAREN{printf("Error de compilación en la línea: %d\n", line_num);
+            | RPAREN{printf("Símbolo ) en lugar erróneo, línea: %d\n", line_num);
                 exit(2);}
-            | ADD{printf("Error de compilación en la línea: %d\n", line_num);
+            | ADD{printf("Símbolo + en lugar erróneo, línea: %d\n", line_num);
                 exit(2);}
-            | LBRACE{printf("Error de compilación en la línea: %d\n", line_num);
+            | LBRACE{printf("Símbolo { en lugar erróneo, línea: %d\n", line_num);
                 exit(2);}
-            | DIV{printf("Error de compilación en la línea: %d\n", line_num);
+            | DIV{printf("Símbolo / en lugar erróneo, línea: %d\n", line_num);
                 exit(2);}
-            | MUL{printf("Error de compilación en la línea: %d\n", line_num);
+            | MUL{printf("Símbolo * en lugar erróneo, línea: %d\n", line_num);
                 exit(2);}
-            | ASSIGN{printf("Error de compilación en la línea: %d\n", line_num);
+            | ASSIGN{printf("Símbolo = en lugar erróneo, línea: %d\n", line_num);
                 exit(2);}
             ;
 
@@ -119,6 +209,30 @@ rbrace : RBRACE{nTabs--;}
 
 
 funcs : etype IDENTIFIER LPAREN declaration_list RPAREN lbrace felements rbrace {
+
+
+
+            //QUITAR TIPO, PONER DEF, : FINALES
+            char str[2048];
+
+            if(strcmp($2, "main")==0){
+                sprintf(str, "def %s(%s):\n%s\n%s", $2, $4, $7, "\nif __name__ == '__main__':\n\tmain()\n");
+            }else{
+                sprintf(str, "def %s(%s):\n%s\n", $2, $4, $7);
+            }
+
+            size_t originalStringLength = strlen(str);
+
+            char *copiedString;
+            copiedString = (char *)malloc(originalStringLength+1);
+
+            strcpy(copiedString, str);
+
+
+
+            $$ = copiedString;
+        }
+        |VOID IDENTIFIER LPAREN declaration_list RPAREN lbrace felements rbrace {
 
 
 
@@ -696,7 +810,7 @@ etype : INT {
 %%
 
 void yyerror(const char *s) {
-    fprintf(stderr, "Error: %s\n", s);
+    fprintf(stderr, "Error: de compilacion en la linea: %d\n", line_num);
 }
 
 int main() {

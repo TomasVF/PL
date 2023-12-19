@@ -83,7 +83,9 @@ extern int yydebug;
     LT = 284,                      /* LT  */
     IDENTIFIER = 285,              /* IDENTIFIER  */
     INTEGER = 286,                 /* INTEGER  */
-    CHARVALUE = 287                /* CHARVALUE  */
+    CHARVALUE = 287,               /* CHARVALUE  */
+    COMENTARIOCONJUNTO = 288,      /* COMENTARIOCONJUNTO  */
+    COMENTARIOLINEA = 289          /* COMENTARIOLINEA  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -122,16 +124,18 @@ extern int yydebug;
 #define IDENTIFIER 285
 #define INTEGER 286
 #define CHARVALUE 287
+#define COMENTARIOCONJUNTO 288
+#define COMENTARIOLINEA 289
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 20 "try.y"
+#line 52 "try.y"
 
     char *string;
 
-#line 135 "try.tab.h"
+#line 139 "try.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
