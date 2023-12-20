@@ -14,6 +14,50 @@ void addTab(){
     nTabs++;
 }
 
+char* substituteString(const char *str) {
+    int len = strlen(str);
+    char *result = (char*)malloc(3 * len * sizeof(char)); // Allocate memory for the result
+    
+    if (result == NULL) {
+        printf("Memory allocation failed.\n");
+        return NULL;
+    }
+    
+    int j = 0;
+    int formatFlag = 0;
+    for (int i = 0; i < len; ++i) {
+        if (str[i] == '%' && i < len - 1) {
+            result[j++] = '{';
+            result[j++] = '}';
+            ++i; // Skip the next character
+            ++i;
+        }
+
+        if (formatFlag) {
+            result[j++] = '.';
+            result[j++] = 'f';
+            result[j++] = 'o';
+            result[j++] = 'r';
+            result[j++] = 'm';
+            result[j++] = 'a';
+            result[j++] = 't';
+            result[j++] = '(';
+            // Adding the rest of the string in the parenthesis
+            for (; i < len; ++i) {
+                result[j++] = str[i];
+            }
+            result[j++] = ')';
+            break; // Exit the loop as we've handled the entire string
+        } else if (i > 0 && str[i - 1] == '"' && str[i] == ',') {
+            formatFlag = 1;
+        } else {
+            result[j++] = str[i];
+        }
+    }
+    result[j] = '\0'; // Null-terminate the result string
+    
+    return result;
+}
 
 char * getSubstringAfter(const char *inputString, const char *searchString) {
     char *output = (char *)malloc(1024);
@@ -53,7 +97,7 @@ char * extractSubstring(const char *inputString, const char *startMarker, const 
     char *string;
 }
 
-%token <string> IDENTIFIER INTEGER CHARVALUE COMENTARIOCONJUNTO COMENTARIOLINEA
+%token <string> IDENTIFIER INTEGER CHARVALUE COMENTARIOCONJUNTO COMENTARIOLINEA PRINT
 
 %type <string> expression 
 term 
@@ -576,6 +620,27 @@ felements : thingThatCanHappen{
 
                     $$ = copiedString;
                 }
+        | PRINT SEMICOLON{
+                    char end[2024];
+                    if(nTabs > 0){
+                        strcpy(end, "\t");
+                        for(int i = 1; i<nTabs;i++){
+                            strcat(end, "\t");
+                        }
+                    }
+                    char *modifiedString = substituteString(extractSubstring($1,"(", ")"));
+                    strcat(end, "print(");
+                    strcat(end, modifiedString);
+                    strcat(end, ")");
+                    size_t originalStringLength = strlen(end);
+
+                    char *copiedString;
+                    copiedString = (char *)malloc(originalStringLength+1);
+
+                    strcpy(copiedString, end);
+
+                    $$ = copiedString;
+                }
         | loopsAndThings{
                     char str[40];
                     if(nTabs > 0){
@@ -591,6 +656,30 @@ felements : thingThatCanHappen{
                     copiedString = (char *)malloc(originalStringLength+1);
 
                     strcpy(copiedString, str);
+
+                    $$ = copiedString;
+                }
+        | PRINT SEMICOLON felements{
+                    char end[2024];
+                    if(nTabs > 0){
+                        strcpy(end, "\t");
+                        for(int i = 1; i<nTabs;i++){
+                            strcat(end, "\t");
+                        }
+                    }
+                    char *modifiedString = substituteString(extractSubstring($1,"(", ")"));
+                    printf("\nES esto: %s\n", modifiedString);
+                    strcat(end, "print(");
+                    strcat(end, modifiedString);
+                    strcat(end, ")");
+                    strcat(end, "\n");
+                    strcat(end, $3);
+                    size_t originalStringLength = strlen(end);
+
+                    char *copiedString;
+                    copiedString = (char *)malloc(originalStringLength+1);
+
+                    strcpy(copiedString, end);
 
                     $$ = copiedString;
                 }

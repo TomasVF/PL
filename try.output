@@ -63,59 +63,61 @@ Grammar
    46               | FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
 
    47 felements: thingThatCanHappen
-   48          | loopsAndThings
-   49          | thingThatCanHappen felements
-   50          | loopsAndThings felements
-   51          | error_handling
+   48          | PRINT SEMICOLON
+   49          | loopsAndThings
+   50          | PRINT SEMICOLON felements
+   51          | thingThatCanHappen felements
+   52          | loopsAndThings felements
+   53          | error_handling
 
-   52 actualizacion: IDENTIFIER ADD ADD
-   53              | IDENTIFIER SUB SUB
-   54              | IDENTIFIER ASSIGN expression
+   54 actualizacion: IDENTIFIER ADD ADD
+   55              | IDENTIFIER SUB SUB
+   56              | IDENTIFIER ASSIGN expression
 
-   55 boolElement: IDENTIFIER bcomparator expression
-   56            | IDENTIFIER
+   57 boolElement: IDENTIFIER bcomparator expression
+   58            | IDENTIFIER
 
-   57 bcomparator: EQ
-   58            | NE
-   59            | GE
-   60            | GT
-   61            | LE
-   62            | LT
+   59 bcomparator: EQ
+   60            | NE
+   61            | GE
+   62            | GT
+   63            | LE
+   64            | LT
 
-   63 expression: term
-   64           | expression ADD term
-   65           | expression SUB term
+   65 expression: term
+   66           | expression ADD term
+   67           | expression SUB term
 
-   66 term: factor
-   67     | term MUL factor
-   68     | term DIV factor
+   68 term: factor
+   69     | term MUL factor
+   70     | term DIV factor
 
-   69 factor: IDENTIFIER
-   70       | INTEGER
-   71       | LPAREN expression RPAREN
+   71 factor: IDENTIFIER
+   72       | INTEGER
+   73       | LPAREN expression RPAREN
 
-   72 etype: INT
-   73      | FLOAT
-   74      | DOUBLE
-   75      | CHAR
+   74 etype: INT
+   75      | FLOAT
+   76      | DOUBLE
+   77      | CHAR
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     error (256)
-    ADD (258) 19 52 64
-    SUB (259) 16 53 65
-    MUL (260) 22 67
-    DIV (261) 21 68
-    ASSIGN (262) 23 34 39 40 54
-    SEMICOLON (263) 34 35 39 40 45 46
-    LPAREN (264) 17 26 27 35 42 43 44 46 71
-    RPAREN (265) 18 26 27 35 42 43 44 46 71
-    INT (266) 72
-    FLOAT (267) 73
-    DOUBLE (268) 74
-    CHAR (269) 75
+    ADD (258) 19 54 66
+    SUB (259) 16 55 67
+    MUL (260) 22 69
+    DIV (261) 21 70
+    ASSIGN (262) 23 34 39 40 56
+    SEMICOLON (263) 34 35 39 40 45 46 48 50
+    LPAREN (264) 17 26 27 35 42 43 44 46 73
+    RPAREN (265) 18 26 27 35 42 43 44 46 73
+    INT (266) 74
+    FLOAT (267) 75
+    DOUBLE (268) 76
+    CHAR (269) 77
     VOID (270) 27
     COLON (271) 13 32 38
     LBRACE (272) 20 24
@@ -125,88 +127,89 @@ Terminals, with rules where they appear
     ELSE (276) 41
     WHILE (277) 44
     FOR (278) 46
-    EQ (279) 57
-    NE (280) 58
-    GE (281) 59
-    GT (282) 60
-    LE (283) 61
-    LT (284) 62
-    IDENTIFIER <string> (285) 12 26 27 31 32 34 35 38 39 40 52 53 54 55 56 69
-    INTEGER <string> (286) 70
+    EQ (279) 59
+    NE (280) 60
+    GE (281) 61
+    GT (282) 62
+    LE (283) 63
+    LT (284) 64
+    IDENTIFIER <string> (285) 12 26 27 31 32 34 35 38 39 40 54 55 56 57 58 71
+    INTEGER <string> (286) 72
     CHARVALUE <string> (287) 37 40
     COMENTARIOCONJUNTO <string> (288) 4 5
     COMENTARIOLINEA <string> (289) 6 7
+    PRINT <string> (290) 48 50
 
 
 Nonterminals, with rules where they appear
 
-    $accept (35)
+    $accept (36)
         on left: 0
-    program (36)
+    program (37)
         on left: 1
         on right: 0
-    statements <string> (37)
+    statements <string> (38)
         on left: 2 3 4 5 6 7 8 9 10 11
         on right: 1 5 7 8 9
-    error_handling (38)
+    error_handling (39)
         on left: 12 13 14 15 16 17 18 19 20 21 22 23
-        on right: 10 51
-    lbrace (39)
+        on right: 10 53
+    lbrace (40)
         on left: 24
         on right: 26 27 41 42 43 44 46
-    rbrace (40)
+    rbrace (41)
         on left: 25
         on right: 26 27 41 42 43 44 46
-    funcs <string> (41)
+    funcs <string> (42)
         on left: 26 27
         on right: 3 9
-    declaration_list <string> (42)
+    declaration_list <string> (43)
         on left: 28 29 30
         on right: 26 27 29
-    lastdec <string> (43)
+    lastdec <string> (44)
         on left: 31
         on right: 28
-    declaration <string> (44)
+    declaration <string> (45)
         on left: 32
         on right: 29
-    thingThatCanHappen <string> (45)
+    thingThatCanHappen <string> (46)
         on left: 33 34 35
-        on right: 2 8 47 49
-    funcCallList <string> (46)
+        on right: 2 8 47 51
+    funcCallList <string> (47)
         on left: 36 37 38
         on right: 35 38
-    statement <string> (47)
+    statement <string> (48)
         on left: 39 40
         on right: 33 46
-    elseOp <string> (48)
+    elseOp <string> (49)
         on left: 41
         on right: 42
-    loopsAndThings <string> (49)
+    loopsAndThings <string> (50)
         on left: 42 43 44 45 46
-        on right: 11 48 50
-    felements <string> (50)
-        on left: 47 48 49 50 51
-        on right: 26 27 41 42 43 44 46 49 50
-    actualizacion <string> (51)
-        on left: 52 53 54
+        on right: 11 49 52
+    felements <string> (51)
+        on left: 47 48 49 50 51 52 53
+        on right: 26 27 41 42 43 44 46 50 51 52
+    actualizacion <string> (52)
+        on left: 54 55 56
         on right: 46
-    boolElement <string> (52)
-        on left: 55 56
+    boolElement <string> (53)
+        on left: 57 58
         on right: 42 43 44 46
-    bcomparator <string> (53)
-        on left: 57 58 59 60 61 62
-        on right: 15 55
-    expression <string> (54)
-        on left: 63 64 65
-        on right: 34 36 39 45 54 55 64 65 71
-    term <string> (55)
-        on left: 66 67 68
-        on right: 63 64 65 67 68
-    factor <string> (56)
-        on left: 69 70 71
-        on right: 66 67 68
-    etype <string> (57)
-        on left: 72 73 74 75
+    bcomparator <string> (54)
+        on left: 59 60 61 62 63 64
+        on right: 15 57
+    expression <string> (55)
+        on left: 65 66 67
+        on right: 34 36 39 45 56 57 66 67 73
+    term <string> (56)
+        on left: 68 69 70
+        on right: 65 66 67 69 70
+    factor <string> (57)
+        on left: 71 72 73
+        on right: 68 69 70
+    etype <string> (58)
+        on left: 74 75 76 77
         on right: 14 26 31 32 39 40
 
 
@@ -248,16 +251,16 @@ State 0
    44               | • WHILE LPAREN boolElement RPAREN lbrace felements rbrace
    45               | • RETURN expression SEMICOLON
    46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     ADD                 shift, and go to state 1
     SUB                 shift, and go to state 2
@@ -349,30 +352,30 @@ State 7
 
 State 8
 
-   72 etype: INT •
-
-    $default  reduce using rule 72 (etype)
-
-
-State 9
-
-   73 etype: FLOAT •
-
-    $default  reduce using rule 73 (etype)
-
-
-State 10
-
-   74 etype: DOUBLE •
+   74 etype: INT •
 
     $default  reduce using rule 74 (etype)
 
 
-State 11
+State 9
 
-   75 etype: CHAR •
+   75 etype: FLOAT •
 
     $default  reduce using rule 75 (etype)
+
+
+State 10
+
+   76 etype: DOUBLE •
+
+    $default  reduce using rule 76 (etype)
+
+
+State 11
+
+   77 etype: CHAR •
+
+    $default  reduce using rule 77 (etype)
 
 
 State 12
@@ -399,15 +402,15 @@ State 14
 State 15
 
    45 loopsAndThings: RETURN • expression SEMICOLON
-   63 expression: • term
-   64           | • expression ADD term
-   65           | • expression SUB term
-   66 term: • factor
-   67     | • term MUL factor
-   68     | • term DIV factor
-   69 factor: • IDENTIFIER
-   70       | • INTEGER
-   71       | • LPAREN expression RPAREN
+   65 expression: • term
+   66           | • expression ADD term
+   67           | • expression SUB term
+   68 term: • factor
+   69     | • term MUL factor
+   70     | • term DIV factor
+   71 factor: • IDENTIFIER
+   72       | • INTEGER
+   73       | • LPAREN expression RPAREN
 
     LPAREN      shift, and go to state 38
     IDENTIFIER  shift, and go to state 39
@@ -442,44 +445,44 @@ State 18
 
 State 19
 
-   57 bcomparator: EQ •
-
-    $default  reduce using rule 57 (bcomparator)
-
-
-State 20
-
-   58 bcomparator: NE •
-
-    $default  reduce using rule 58 (bcomparator)
-
-
-State 21
-
-   59 bcomparator: GE •
+   59 bcomparator: EQ •
 
     $default  reduce using rule 59 (bcomparator)
 
 
-State 22
+State 20
 
-   60 bcomparator: GT •
+   60 bcomparator: NE •
 
     $default  reduce using rule 60 (bcomparator)
 
 
-State 23
+State 21
 
-   61 bcomparator: LE •
+   61 bcomparator: GE •
 
     $default  reduce using rule 61 (bcomparator)
 
 
-State 24
+State 22
 
-   62 bcomparator: LT •
+   62 bcomparator: GT •
 
     $default  reduce using rule 62 (bcomparator)
+
+
+State 23
+
+   63 bcomparator: LE •
+
+    $default  reduce using rule 63 (bcomparator)
+
+
+State 24
+
+   64 bcomparator: LT •
+
+    $default  reduce using rule 64 (bcomparator)
 
 
 State 25
@@ -532,16 +535,16 @@ State 26
    44               | • WHILE LPAREN boolElement RPAREN lbrace felements rbrace
    45               | • RETURN expression SEMICOLON
    46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     ADD                 shift, and go to state 1
     SUB                 shift, and go to state 2
@@ -621,16 +624,16 @@ State 27
    44               | • WHILE LPAREN boolElement RPAREN lbrace felements rbrace
    45               | • RETURN expression SEMICOLON
    46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     ADD                 shift, and go to state 1
     SUB                 shift, and go to state 2
@@ -731,16 +734,16 @@ State 31
    44               | • WHILE LPAREN boolElement RPAREN lbrace felements rbrace
    45               | • RETURN expression SEMICOLON
    46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     ADD                 shift, and go to state 1
     SUB                 shift, and go to state 2
@@ -820,16 +823,16 @@ State 32
    44               | • WHILE LPAREN boolElement RPAREN lbrace felements rbrace
    45               | • RETURN expression SEMICOLON
    46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     ADD                 shift, and go to state 1
     SUB                 shift, and go to state 2
@@ -913,16 +916,16 @@ State 37
 
 State 38
 
-   63 expression: • term
-   64           | • expression ADD term
-   65           | • expression SUB term
-   66 term: • factor
-   67     | • term MUL factor
-   68     | • term DIV factor
-   69 factor: • IDENTIFIER
-   70       | • INTEGER
-   71       | • LPAREN expression RPAREN
-   71       | LPAREN • expression RPAREN
+   65 expression: • term
+   66           | • expression ADD term
+   67           | • expression SUB term
+   68 term: • factor
+   69     | • term MUL factor
+   70     | • term DIV factor
+   71 factor: • IDENTIFIER
+   72       | • INTEGER
+   73       | • LPAREN expression RPAREN
+   73       | LPAREN • expression RPAREN
 
     LPAREN      shift, and go to state 38
     IDENTIFIER  shift, and go to state 39
@@ -935,23 +938,23 @@ State 38
 
 State 39
 
-   69 factor: IDENTIFIER •
+   71 factor: IDENTIFIER •
 
-    $default  reduce using rule 69 (factor)
+    $default  reduce using rule 71 (factor)
 
 
 State 40
 
-   70 factor: INTEGER •
+   72 factor: INTEGER •
 
-    $default  reduce using rule 70 (factor)
+    $default  reduce using rule 72 (factor)
 
 
 State 41
 
    45 loopsAndThings: RETURN expression • SEMICOLON
-   64 expression: expression • ADD term
-   65           | expression • SUB term
+   66 expression: expression • ADD term
+   67           | expression • SUB term
 
     ADD        shift, and go to state 57
     SUB        shift, and go to state 58
@@ -960,29 +963,29 @@ State 41
 
 State 42
 
-   63 expression: term •  [ADD, SUB, SEMICOLON, RPAREN]
-   67 term: term • MUL factor
-   68     | term • DIV factor
+   65 expression: term •  [ADD, SUB, SEMICOLON, RPAREN]
+   69 term: term • MUL factor
+   70     | term • DIV factor
 
     MUL  shift, and go to state 60
     DIV  shift, and go to state 61
 
-    $default  reduce using rule 63 (expression)
+    $default  reduce using rule 65 (expression)
 
 
 State 43
 
-   66 term: factor •
+   68 term: factor •
 
-    $default  reduce using rule 66 (term)
+    $default  reduce using rule 68 (term)
 
 
 State 44
 
    42 loopsAndThings: IF LPAREN • boolElement RPAREN lbrace felements rbrace elseOp
    43               | IF LPAREN • boolElement RPAREN lbrace felements rbrace
-   55 boolElement: • IDENTIFIER bcomparator expression
-   56            | • IDENTIFIER
+   57 boolElement: • IDENTIFIER bcomparator expression
+   58            | • IDENTIFIER
 
     IDENTIFIER  shift, and go to state 62
 
@@ -992,8 +995,8 @@ State 44
 State 45
 
    44 loopsAndThings: WHILE LPAREN • boolElement RPAREN lbrace felements rbrace
-   55 boolElement: • IDENTIFIER bcomparator expression
-   56            | • IDENTIFIER
+   57 boolElement: • IDENTIFIER bcomparator expression
+   58            | • IDENTIFIER
 
     IDENTIFIER  shift, and go to state 62
 
@@ -1005,10 +1008,10 @@ State 46
    39 statement: • etype IDENTIFIER ASSIGN expression SEMICOLON
    40          | • etype IDENTIFIER ASSIGN CHARVALUE SEMICOLON
    46 loopsAndThings: FOR LPAREN • statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     INT     shift, and go to state 8
     FLOAT   shift, and go to state 9
@@ -1022,15 +1025,15 @@ State 46
 State 47
 
    34 thingThatCanHappen: IDENTIFIER ASSIGN • expression SEMICOLON
-   63 expression: • term
-   64           | • expression ADD term
-   65           | • expression SUB term
-   66 term: • factor
-   67     | • term MUL factor
-   68     | • term DIV factor
-   69 factor: • IDENTIFIER
-   70       | • INTEGER
-   71       | • LPAREN expression RPAREN
+   65 expression: • term
+   66           | • expression ADD term
+   67           | • expression SUB term
+   68 term: • factor
+   69     | • term MUL factor
+   70     | • term DIV factor
+   71 factor: • IDENTIFIER
+   72       | • INTEGER
+   73       | • LPAREN expression RPAREN
 
     LPAREN      shift, and go to state 38
     IDENTIFIER  shift, and go to state 39
@@ -1047,15 +1050,15 @@ State 48
    36 funcCallList: • expression
    37             | • CHARVALUE
    38             | • IDENTIFIER COLON funcCallList
-   63 expression: • term
-   64           | • expression ADD term
-   65           | • expression SUB term
-   66 term: • factor
-   67     | • term MUL factor
-   68     | • term DIV factor
-   69 factor: • IDENTIFIER
-   70       | • INTEGER
-   71       | • LPAREN expression RPAREN
+   65 expression: • term
+   66           | • expression ADD term
+   67           | • expression SUB term
+   68 term: • factor
+   69     | • term MUL factor
+   70     | • term DIV factor
+   71 factor: • IDENTIFIER
+   72       | • INTEGER
+   73       | • LPAREN expression RPAREN
 
     LPAREN      shift, and go to state 38
     IDENTIFIER  shift, and go to state 68
@@ -1121,10 +1124,10 @@ State 55
    30                 | ε •  [RPAREN]
    31 lastdec: • etype IDENTIFIER
    32 declaration: • etype IDENTIFIER COLON
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     INT     shift, and go to state 8
     FLOAT   shift, and go to state 9
@@ -1141,9 +1144,9 @@ State 55
 
 State 56
 
-   64 expression: expression • ADD term
-   65           | expression • SUB term
-   71 factor: LPAREN expression • RPAREN
+   66 expression: expression • ADD term
+   67           | expression • SUB term
+   73 factor: LPAREN expression • RPAREN
 
     ADD     shift, and go to state 57
     SUB     shift, and go to state 58
@@ -1152,13 +1155,13 @@ State 56
 
 State 57
 
-   64 expression: expression ADD • term
-   66 term: • factor
-   67     | • term MUL factor
-   68     | • term DIV factor
-   69 factor: • IDENTIFIER
-   70       | • INTEGER
-   71       | • LPAREN expression RPAREN
+   66 expression: expression ADD • term
+   68 term: • factor
+   69     | • term MUL factor
+   70     | • term DIV factor
+   71 factor: • IDENTIFIER
+   72       | • INTEGER
+   73       | • LPAREN expression RPAREN
 
     LPAREN      shift, and go to state 38
     IDENTIFIER  shift, and go to state 39
@@ -1170,13 +1173,13 @@ State 57
 
 State 58
 
-   65 expression: expression SUB • term
-   66 term: • factor
-   67     | • term MUL factor
-   68     | • term DIV factor
-   69 factor: • IDENTIFIER
-   70       | • INTEGER
-   71       | • LPAREN expression RPAREN
+   67 expression: expression SUB • term
+   68 term: • factor
+   69     | • term MUL factor
+   70     | • term DIV factor
+   71 factor: • IDENTIFIER
+   72       | • INTEGER
+   73       | • LPAREN expression RPAREN
 
     LPAREN      shift, and go to state 38
     IDENTIFIER  shift, and go to state 39
@@ -1195,10 +1198,10 @@ State 59
 
 State 60
 
-   67 term: term MUL • factor
-   69 factor: • IDENTIFIER
-   70       | • INTEGER
-   71       | • LPAREN expression RPAREN
+   69 term: term MUL • factor
+   71 factor: • IDENTIFIER
+   72       | • INTEGER
+   73       | • LPAREN expression RPAREN
 
     LPAREN      shift, and go to state 38
     IDENTIFIER  shift, and go to state 39
@@ -1209,10 +1212,10 @@ State 60
 
 State 61
 
-   68 term: term DIV • factor
-   69 factor: • IDENTIFIER
-   70       | • INTEGER
-   71       | • LPAREN expression RPAREN
+   70 term: term DIV • factor
+   71 factor: • IDENTIFIER
+   72       | • INTEGER
+   73       | • LPAREN expression RPAREN
 
     LPAREN      shift, and go to state 38
     IDENTIFIER  shift, and go to state 39
@@ -1223,14 +1226,14 @@ State 61
 
 State 62
 
-   55 boolElement: IDENTIFIER • bcomparator expression
-   56            | IDENTIFIER •  [SEMICOLON, RPAREN]
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
+   57 boolElement: IDENTIFIER • bcomparator expression
+   58            | IDENTIFIER •  [SEMICOLON, RPAREN]
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
 
     EQ  shift, and go to state 19
     NE  shift, and go to state 20
@@ -1239,7 +1242,7 @@ State 62
     LE  shift, and go to state 23
     LT  shift, and go to state 24
 
-    $default  reduce using rule 56 (boolElement)
+    $default  reduce using rule 58 (boolElement)
 
     bcomparator  go to state 83
 
@@ -1262,8 +1265,8 @@ State 64
 State 65
 
    46 loopsAndThings: FOR LPAREN statement • boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
-   55 boolElement: • IDENTIFIER bcomparator expression
-   56            | • IDENTIFIER
+   57 boolElement: • IDENTIFIER bcomparator expression
+   58            | • IDENTIFIER
 
     IDENTIFIER  shift, and go to state 62
 
@@ -1281,8 +1284,8 @@ State 66
 State 67
 
    34 thingThatCanHappen: IDENTIFIER ASSIGN expression • SEMICOLON
-   64 expression: expression • ADD term
-   65           | expression • SUB term
+   66 expression: expression • ADD term
+   67           | expression • SUB term
 
     ADD        shift, and go to state 57
     SUB        shift, and go to state 58
@@ -1292,11 +1295,11 @@ State 67
 State 68
 
    38 funcCallList: IDENTIFIER • COLON funcCallList
-   69 factor: IDENTIFIER •  [ADD, SUB, MUL, DIV, RPAREN]
+   71 factor: IDENTIFIER •  [ADD, SUB, MUL, DIV, RPAREN]
 
     COLON  shift, and go to state 89
 
-    $default  reduce using rule 69 (factor)
+    $default  reduce using rule 71 (factor)
 
 
 State 69
@@ -1316,8 +1319,8 @@ State 70
 State 71
 
    36 funcCallList: expression •  [RPAREN]
-   64 expression: expression • ADD term
-   65           | expression • SUB term
+   66 expression: expression • ADD term
+   67           | expression • SUB term
 
     ADD  shift, and go to state 57
     SUB  shift, and go to state 58
@@ -1329,15 +1332,15 @@ State 72
 
    39 statement: etype IDENTIFIER ASSIGN • expression SEMICOLON
    40          | etype IDENTIFIER ASSIGN • CHARVALUE SEMICOLON
-   63 expression: • term
-   64           | • expression ADD term
-   65           | • expression SUB term
-   66 term: • factor
-   67     | • term MUL factor
-   68     | • term DIV factor
-   69 factor: • IDENTIFIER
-   70       | • INTEGER
-   71       | • LPAREN expression RPAREN
+   65 expression: • term
+   66           | • expression ADD term
+   67           | • expression SUB term
+   68 term: • factor
+   69     | • term MUL factor
+   70     | • term DIV factor
+   71 factor: • IDENTIFIER
+   72       | • INTEGER
+   73       | • LPAREN expression RPAREN
 
     LPAREN      shift, and go to state 38
     IDENTIFIER  shift, and go to state 39
@@ -1357,10 +1360,10 @@ State 73
    30                 | ε •  [RPAREN]
    31 lastdec: • etype IDENTIFIER
    32 declaration: • etype IDENTIFIER COLON
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     INT     shift, and go to state 8
     FLOAT   shift, and go to state 9
@@ -1397,10 +1400,10 @@ State 76
    30                 | ε •  [RPAREN]
    31 lastdec: • etype IDENTIFIER
    32 declaration: • etype IDENTIFIER COLON
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     INT     shift, and go to state 8
     FLOAT   shift, and go to state 9
@@ -1425,61 +1428,61 @@ State 77
 
 State 78
 
-   71 factor: LPAREN expression RPAREN •
+   73 factor: LPAREN expression RPAREN •
 
-    $default  reduce using rule 71 (factor)
+    $default  reduce using rule 73 (factor)
 
 
 State 79
 
-   64 expression: expression ADD term •  [ADD, SUB, SEMICOLON, RPAREN]
-   67 term: term • MUL factor
-   68     | term • DIV factor
+   66 expression: expression ADD term •  [ADD, SUB, SEMICOLON, RPAREN]
+   69 term: term • MUL factor
+   70     | term • DIV factor
 
     MUL  shift, and go to state 60
     DIV  shift, and go to state 61
 
-    $default  reduce using rule 64 (expression)
+    $default  reduce using rule 66 (expression)
 
 
 State 80
 
-   65 expression: expression SUB term •  [ADD, SUB, SEMICOLON, RPAREN]
-   67 term: term • MUL factor
-   68     | term • DIV factor
+   67 expression: expression SUB term •  [ADD, SUB, SEMICOLON, RPAREN]
+   69 term: term • MUL factor
+   70     | term • DIV factor
 
     MUL  shift, and go to state 60
     DIV  shift, and go to state 61
 
-    $default  reduce using rule 65 (expression)
+    $default  reduce using rule 67 (expression)
 
 
 State 81
 
-   67 term: term MUL factor •
+   69 term: term MUL factor •
 
-    $default  reduce using rule 67 (term)
+    $default  reduce using rule 69 (term)
 
 
 State 82
 
-   68 term: term DIV factor •
+   70 term: term DIV factor •
 
-    $default  reduce using rule 68 (term)
+    $default  reduce using rule 70 (term)
 
 
 State 83
 
-   55 boolElement: IDENTIFIER bcomparator • expression
-   63 expression: • term
-   64           | • expression ADD term
-   65           | • expression SUB term
-   66 term: • factor
-   67     | • term MUL factor
-   68     | • term DIV factor
-   69 factor: • IDENTIFIER
-   70       | • INTEGER
-   71       | • LPAREN expression RPAREN
+   57 boolElement: IDENTIFIER bcomparator • expression
+   65 expression: • term
+   66           | • expression ADD term
+   67           | • expression SUB term
+   68 term: • factor
+   69     | • term MUL factor
+   70     | • term DIV factor
+   71 factor: • IDENTIFIER
+   72       | • INTEGER
+   73       | • LPAREN expression RPAREN
 
     LPAREN      shift, and go to state 38
     IDENTIFIER  shift, and go to state 39
@@ -1539,15 +1542,15 @@ State 89
    37             | • CHARVALUE
    38             | • IDENTIFIER COLON funcCallList
    38             | IDENTIFIER COLON • funcCallList
-   63 expression: • term
-   64           | • expression ADD term
-   65           | • expression SUB term
-   66 term: • factor
-   67     | • term MUL factor
-   68     | • term DIV factor
-   69 factor: • IDENTIFIER
-   70       | • INTEGER
-   71       | • LPAREN expression RPAREN
+   65 expression: • term
+   66           | • expression ADD term
+   67           | • expression SUB term
+   68 term: • factor
+   69     | • term MUL factor
+   70     | • term DIV factor
+   71 factor: • IDENTIFIER
+   72       | • INTEGER
+   73       | • LPAREN expression RPAREN
 
     LPAREN      shift, and go to state 38
     IDENTIFIER  shift, and go to state 68
@@ -1577,8 +1580,8 @@ State 91
 State 92
 
    39 statement: etype IDENTIFIER ASSIGN expression • SEMICOLON
-   64 expression: expression • ADD term
-   65           | expression • SUB term
+   66 expression: expression • ADD term
+   67           | expression • SUB term
 
     ADD        shift, and go to state 57
     SUB        shift, and go to state 58
@@ -1621,14 +1624,14 @@ State 96
 
 State 97
 
-   55 boolElement: IDENTIFIER bcomparator expression •  [SEMICOLON, RPAREN]
-   64 expression: expression • ADD term
-   65           | expression • SUB term
+   57 boolElement: IDENTIFIER bcomparator expression •  [SEMICOLON, RPAREN]
+   66 expression: expression • ADD term
+   67           | expression • SUB term
 
     ADD  shift, and go to state 57
     SUB  shift, and go to state 58
 
-    $default  reduce using rule 55 (boolElement)
+    $default  reduce using rule 57 (boolElement)
 
 
 State 98
@@ -1665,20 +1668,22 @@ State 99
    45               | • RETURN expression SEMICOLON
    46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
    47 felements: • thingThatCanHappen
-   48          | • loopsAndThings
-   49          | • thingThatCanHappen felements
-   50          | • loopsAndThings felements
-   51          | • error_handling
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   48          | • PRINT SEMICOLON
+   49          | • loopsAndThings
+   50          | • PRINT SEMICOLON felements
+   51          | • thingThatCanHappen felements
+   52          | • loopsAndThings felements
+   53          | • error_handling
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     ADD         shift, and go to state 1
     SUB         shift, and go to state 2
@@ -1704,14 +1709,15 @@ State 99
     LE          shift, and go to state 23
     LT          shift, and go to state 24
     IDENTIFIER  shift, and go to state 25
+    PRINT       shift, and go to state 109
 
-    error_handling      go to state 109
-    thingThatCanHappen  go to state 110
+    error_handling      go to state 110
+    thingThatCanHappen  go to state 111
     statement           go to state 33
-    loopsAndThings      go to state 111
-    felements           go to state 112
+    loopsAndThings      go to state 112
+    felements           go to state 113
     bcomparator         go to state 35
-    etype               go to state 113
+    etype               go to state 114
 
 
 State 100
@@ -1740,20 +1746,22 @@ State 100
    45               | • RETURN expression SEMICOLON
    46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
    47 felements: • thingThatCanHappen
-   48          | • loopsAndThings
-   49          | • thingThatCanHappen felements
-   50          | • loopsAndThings felements
-   51          | • error_handling
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   48          | • PRINT SEMICOLON
+   49          | • loopsAndThings
+   50          | • PRINT SEMICOLON felements
+   51          | • thingThatCanHappen felements
+   52          | • loopsAndThings felements
+   53          | • error_handling
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     ADD         shift, and go to state 1
     SUB         shift, and go to state 2
@@ -1779,26 +1787,27 @@ State 100
     LE          shift, and go to state 23
     LT          shift, and go to state 24
     IDENTIFIER  shift, and go to state 25
+    PRINT       shift, and go to state 109
 
-    error_handling      go to state 109
-    thingThatCanHappen  go to state 110
+    error_handling      go to state 110
+    thingThatCanHappen  go to state 111
     statement           go to state 33
-    loopsAndThings      go to state 111
-    felements           go to state 114
+    loopsAndThings      go to state 112
+    felements           go to state 115
     bcomparator         go to state 35
-    etype               go to state 113
+    etype               go to state 114
 
 
 State 101
 
    46 loopsAndThings: FOR LPAREN statement boolElement SEMICOLON • actualizacion RPAREN lbrace felements rbrace
-   52 actualizacion: • IDENTIFIER ADD ADD
-   53              | • IDENTIFIER SUB SUB
-   54              | • IDENTIFIER ASSIGN expression
+   54 actualizacion: • IDENTIFIER ADD ADD
+   55              | • IDENTIFIER SUB SUB
+   56              | • IDENTIFIER ASSIGN expression
 
-    IDENTIFIER  shift, and go to state 115
+    IDENTIFIER  shift, and go to state 116
 
-    actualizacion  go to state 116
+    actualizacion  go to state 117
 
 
 State 102
@@ -1836,7 +1845,7 @@ State 106
 
     LBRACE  shift, and go to state 98
 
-    lbrace  go to state 117
+    lbrace  go to state 118
 
 
 State 107
@@ -1865,20 +1874,22 @@ State 107
    45               | • RETURN expression SEMICOLON
    46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
    47 felements: • thingThatCanHappen
-   48          | • loopsAndThings
-   49          | • thingThatCanHappen felements
-   50          | • loopsAndThings felements
-   51          | • error_handling
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   48          | • PRINT SEMICOLON
+   49          | • loopsAndThings
+   50          | • PRINT SEMICOLON felements
+   51          | • thingThatCanHappen felements
+   52          | • loopsAndThings felements
+   53          | • error_handling
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     ADD         shift, and go to state 1
     SUB         shift, and go to state 2
@@ -1904,14 +1915,15 @@ State 107
     LE          shift, and go to state 23
     LT          shift, and go to state 24
     IDENTIFIER  shift, and go to state 25
+    PRINT       shift, and go to state 109
 
-    error_handling      go to state 109
-    thingThatCanHappen  go to state 110
+    error_handling      go to state 110
+    thingThatCanHappen  go to state 111
     statement           go to state 33
-    loopsAndThings      go to state 111
-    felements           go to state 118
+    loopsAndThings      go to state 112
+    felements           go to state 119
     bcomparator         go to state 35
-    etype               go to state 113
+    etype               go to state 114
 
 
 State 108
@@ -1923,87 +1935,17 @@ State 108
 
 State 109
 
-   51 felements: error_handling •
+   48 felements: PRINT • SEMICOLON
+   50          | PRINT • SEMICOLON felements
 
-    $default  reduce using rule 51 (felements)
+    SEMICOLON  shift, and go to state 120
 
 
 State 110
 
-   12 error_handling: • IDENTIFIER
-   13               | • COLON
-   14               | • etype
-   15               | • bcomparator
-   16               | • SUB
-   17               | • LPAREN
-   18               | • RPAREN
-   19               | • ADD
-   20               | • LBRACE
-   21               | • DIV
-   22               | • MUL
-   23               | • ASSIGN
-   33 thingThatCanHappen: • statement
-   34                   | • IDENTIFIER ASSIGN expression SEMICOLON
-   35                   | • IDENTIFIER LPAREN funcCallList RPAREN SEMICOLON
-   39 statement: • etype IDENTIFIER ASSIGN expression SEMICOLON
-   40          | • etype IDENTIFIER ASSIGN CHARVALUE SEMICOLON
-   42 loopsAndThings: • IF LPAREN boolElement RPAREN lbrace felements rbrace elseOp
-   43               | • IF LPAREN boolElement RPAREN lbrace felements rbrace
-   44               | • WHILE LPAREN boolElement RPAREN lbrace felements rbrace
-   45               | • RETURN expression SEMICOLON
-   46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
-   47 felements: • thingThatCanHappen
-   47          | thingThatCanHappen •  [RBRACE]
-   48          | • loopsAndThings
-   49          | • thingThatCanHappen felements
-   49          | thingThatCanHappen • felements
-   50          | • loopsAndThings felements
-   51          | • error_handling
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   53 felements: error_handling •
 
-    ADD         shift, and go to state 1
-    SUB         shift, and go to state 2
-    MUL         shift, and go to state 3
-    DIV         shift, and go to state 4
-    ASSIGN      shift, and go to state 5
-    LPAREN      shift, and go to state 6
-    RPAREN      shift, and go to state 7
-    INT         shift, and go to state 8
-    FLOAT       shift, and go to state 9
-    DOUBLE      shift, and go to state 10
-    CHAR        shift, and go to state 11
-    COLON       shift, and go to state 13
-    LBRACE      shift, and go to state 14
-    RETURN      shift, and go to state 15
-    IF          shift, and go to state 16
-    WHILE       shift, and go to state 17
-    FOR         shift, and go to state 18
-    EQ          shift, and go to state 19
-    NE          shift, and go to state 20
-    GE          shift, and go to state 21
-    GT          shift, and go to state 22
-    LE          shift, and go to state 23
-    LT          shift, and go to state 24
-    IDENTIFIER  shift, and go to state 25
-
-    $default  reduce using rule 47 (felements)
-
-    error_handling      go to state 109
-    thingThatCanHappen  go to state 110
-    statement           go to state 33
-    loopsAndThings      go to state 111
-    felements           go to state 119
-    bcomparator         go to state 35
-    etype               go to state 113
+    $default  reduce using rule 53 (felements)
 
 
 State 111
@@ -2031,22 +1973,24 @@ State 111
    45               | • RETURN expression SEMICOLON
    46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
    47 felements: • thingThatCanHappen
-   48          | • loopsAndThings
-   48          | loopsAndThings •  [RBRACE]
-   49          | • thingThatCanHappen felements
-   50          | • loopsAndThings felements
-   50          | loopsAndThings • felements
-   51          | • error_handling
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   47          | thingThatCanHappen •  [RBRACE]
+   48          | • PRINT SEMICOLON
+   49          | • loopsAndThings
+   50          | • PRINT SEMICOLON felements
+   51          | • thingThatCanHappen felements
+   51          | thingThatCanHappen • felements
+   52          | • loopsAndThings felements
+   53          | • error_handling
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     ADD         shift, and go to state 1
     SUB         shift, and go to state 2
@@ -2072,30 +2016,112 @@ State 111
     LE          shift, and go to state 23
     LT          shift, and go to state 24
     IDENTIFIER  shift, and go to state 25
+    PRINT       shift, and go to state 109
 
-    $default  reduce using rule 48 (felements)
+    $default  reduce using rule 47 (felements)
 
-    error_handling      go to state 109
-    thingThatCanHappen  go to state 110
+    error_handling      go to state 110
+    thingThatCanHappen  go to state 111
     statement           go to state 33
-    loopsAndThings      go to state 111
-    felements           go to state 120
+    loopsAndThings      go to state 112
+    felements           go to state 121
     bcomparator         go to state 35
-    etype               go to state 113
+    etype               go to state 114
 
 
 State 112
+
+   12 error_handling: • IDENTIFIER
+   13               | • COLON
+   14               | • etype
+   15               | • bcomparator
+   16               | • SUB
+   17               | • LPAREN
+   18               | • RPAREN
+   19               | • ADD
+   20               | • LBRACE
+   21               | • DIV
+   22               | • MUL
+   23               | • ASSIGN
+   33 thingThatCanHappen: • statement
+   34                   | • IDENTIFIER ASSIGN expression SEMICOLON
+   35                   | • IDENTIFIER LPAREN funcCallList RPAREN SEMICOLON
+   39 statement: • etype IDENTIFIER ASSIGN expression SEMICOLON
+   40          | • etype IDENTIFIER ASSIGN CHARVALUE SEMICOLON
+   42 loopsAndThings: • IF LPAREN boolElement RPAREN lbrace felements rbrace elseOp
+   43               | • IF LPAREN boolElement RPAREN lbrace felements rbrace
+   44               | • WHILE LPAREN boolElement RPAREN lbrace felements rbrace
+   45               | • RETURN expression SEMICOLON
+   46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
+   47 felements: • thingThatCanHappen
+   48          | • PRINT SEMICOLON
+   49          | • loopsAndThings
+   49          | loopsAndThings •  [RBRACE]
+   50          | • PRINT SEMICOLON felements
+   51          | • thingThatCanHappen felements
+   52          | • loopsAndThings felements
+   52          | loopsAndThings • felements
+   53          | • error_handling
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
+
+    ADD         shift, and go to state 1
+    SUB         shift, and go to state 2
+    MUL         shift, and go to state 3
+    DIV         shift, and go to state 4
+    ASSIGN      shift, and go to state 5
+    LPAREN      shift, and go to state 6
+    RPAREN      shift, and go to state 7
+    INT         shift, and go to state 8
+    FLOAT       shift, and go to state 9
+    DOUBLE      shift, and go to state 10
+    CHAR        shift, and go to state 11
+    COLON       shift, and go to state 13
+    LBRACE      shift, and go to state 14
+    RETURN      shift, and go to state 15
+    IF          shift, and go to state 16
+    WHILE       shift, and go to state 17
+    FOR         shift, and go to state 18
+    EQ          shift, and go to state 19
+    NE          shift, and go to state 20
+    GE          shift, and go to state 21
+    GT          shift, and go to state 22
+    LE          shift, and go to state 23
+    LT          shift, and go to state 24
+    IDENTIFIER  shift, and go to state 25
+    PRINT       shift, and go to state 109
+
+    $default  reduce using rule 49 (felements)
+
+    error_handling      go to state 110
+    thingThatCanHappen  go to state 111
+    statement           go to state 33
+    loopsAndThings      go to state 112
+    felements           go to state 122
+    bcomparator         go to state 35
+    etype               go to state 114
+
+
+State 113
 
    25 rbrace: • RBRACE
    42 loopsAndThings: IF LPAREN boolElement RPAREN lbrace felements • rbrace elseOp
    43               | IF LPAREN boolElement RPAREN lbrace felements • rbrace
 
-    RBRACE  shift, and go to state 121
+    RBRACE  shift, and go to state 123
 
-    rbrace  go to state 122
+    rbrace  go to state 124
 
 
-State 113
+State 114
 
    14 error_handling: etype •  [RBRACE]
    39 statement: etype • IDENTIFIER ASSIGN expression SEMICOLON
@@ -2106,35 +2132,35 @@ State 113
     $default  reduce using rule 14 (error_handling)
 
 
-State 114
+State 115
 
    25 rbrace: • RBRACE
    44 loopsAndThings: WHILE LPAREN boolElement RPAREN lbrace felements • rbrace
 
-    RBRACE  shift, and go to state 121
+    RBRACE  shift, and go to state 123
 
-    rbrace  go to state 123
-
-
-State 115
-
-   52 actualizacion: IDENTIFIER • ADD ADD
-   53              | IDENTIFIER • SUB SUB
-   54              | IDENTIFIER • ASSIGN expression
-
-    ADD     shift, and go to state 124
-    SUB     shift, and go to state 125
-    ASSIGN  shift, and go to state 126
+    rbrace  go to state 125
 
 
 State 116
 
-   46 loopsAndThings: FOR LPAREN statement boolElement SEMICOLON actualizacion • RPAREN lbrace felements rbrace
+   54 actualizacion: IDENTIFIER • ADD ADD
+   55              | IDENTIFIER • SUB SUB
+   56              | IDENTIFIER • ASSIGN expression
 
-    RPAREN  shift, and go to state 127
+    ADD     shift, and go to state 126
+    SUB     shift, and go to state 127
+    ASSIGN  shift, and go to state 128
 
 
 State 117
+
+   46 loopsAndThings: FOR LPAREN statement boolElement SEMICOLON actualizacion • RPAREN lbrace felements rbrace
+
+    RPAREN  shift, and go to state 129
+
+
+State 118
 
    12 error_handling: • IDENTIFIER
    13               | • COLON
@@ -2160,20 +2186,22 @@ State 117
    45               | • RETURN expression SEMICOLON
    46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
    47 felements: • thingThatCanHappen
-   48          | • loopsAndThings
-   49          | • thingThatCanHappen felements
-   50          | • loopsAndThings felements
-   51          | • error_handling
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   48          | • PRINT SEMICOLON
+   49          | • loopsAndThings
+   50          | • PRINT SEMICOLON felements
+   51          | • thingThatCanHappen felements
+   52          | • loopsAndThings felements
+   53          | • error_handling
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     ADD         shift, and go to state 1
     SUB         shift, and go to state 2
@@ -2199,174 +2227,263 @@ State 117
     LE          shift, and go to state 23
     LT          shift, and go to state 24
     IDENTIFIER  shift, and go to state 25
+    PRINT       shift, and go to state 109
 
-    error_handling      go to state 109
-    thingThatCanHappen  go to state 110
+    error_handling      go to state 110
+    thingThatCanHappen  go to state 111
     statement           go to state 33
-    loopsAndThings      go to state 111
-    felements           go to state 128
+    loopsAndThings      go to state 112
+    felements           go to state 130
     bcomparator         go to state 35
-    etype               go to state 113
-
-
-State 118
-
-   25 rbrace: • RBRACE
-   27 funcs: VOID IDENTIFIER LPAREN declaration_list RPAREN lbrace felements • rbrace
-
-    RBRACE  shift, and go to state 121
-
-    rbrace  go to state 129
+    etype               go to state 114
 
 
 State 119
 
-   49 felements: thingThatCanHappen felements •
+   25 rbrace: • RBRACE
+   27 funcs: VOID IDENTIFIER LPAREN declaration_list RPAREN lbrace felements • rbrace
 
-    $default  reduce using rule 49 (felements)
+    RBRACE  shift, and go to state 123
+
+    rbrace  go to state 131
 
 
 State 120
 
-   50 felements: loopsAndThings felements •
+   12 error_handling: • IDENTIFIER
+   13               | • COLON
+   14               | • etype
+   15               | • bcomparator
+   16               | • SUB
+   17               | • LPAREN
+   18               | • RPAREN
+   19               | • ADD
+   20               | • LBRACE
+   21               | • DIV
+   22               | • MUL
+   23               | • ASSIGN
+   33 thingThatCanHappen: • statement
+   34                   | • IDENTIFIER ASSIGN expression SEMICOLON
+   35                   | • IDENTIFIER LPAREN funcCallList RPAREN SEMICOLON
+   39 statement: • etype IDENTIFIER ASSIGN expression SEMICOLON
+   40          | • etype IDENTIFIER ASSIGN CHARVALUE SEMICOLON
+   42 loopsAndThings: • IF LPAREN boolElement RPAREN lbrace felements rbrace elseOp
+   43               | • IF LPAREN boolElement RPAREN lbrace felements rbrace
+   44               | • WHILE LPAREN boolElement RPAREN lbrace felements rbrace
+   45               | • RETURN expression SEMICOLON
+   46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
+   47 felements: • thingThatCanHappen
+   48          | • PRINT SEMICOLON
+   48          | PRINT SEMICOLON •  [RBRACE]
+   49          | • loopsAndThings
+   50          | • PRINT SEMICOLON felements
+   50          | PRINT SEMICOLON • felements
+   51          | • thingThatCanHappen felements
+   52          | • loopsAndThings felements
+   53          | • error_handling
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
-    $default  reduce using rule 50 (felements)
+    ADD         shift, and go to state 1
+    SUB         shift, and go to state 2
+    MUL         shift, and go to state 3
+    DIV         shift, and go to state 4
+    ASSIGN      shift, and go to state 5
+    LPAREN      shift, and go to state 6
+    RPAREN      shift, and go to state 7
+    INT         shift, and go to state 8
+    FLOAT       shift, and go to state 9
+    DOUBLE      shift, and go to state 10
+    CHAR        shift, and go to state 11
+    COLON       shift, and go to state 13
+    LBRACE      shift, and go to state 14
+    RETURN      shift, and go to state 15
+    IF          shift, and go to state 16
+    WHILE       shift, and go to state 17
+    FOR         shift, and go to state 18
+    EQ          shift, and go to state 19
+    NE          shift, and go to state 20
+    GE          shift, and go to state 21
+    GT          shift, and go to state 22
+    LE          shift, and go to state 23
+    LT          shift, and go to state 24
+    IDENTIFIER  shift, and go to state 25
+    PRINT       shift, and go to state 109
+
+    $default  reduce using rule 48 (felements)
+
+    error_handling      go to state 110
+    thingThatCanHappen  go to state 111
+    statement           go to state 33
+    loopsAndThings      go to state 112
+    felements           go to state 132
+    bcomparator         go to state 35
+    etype               go to state 114
 
 
 State 121
+
+   51 felements: thingThatCanHappen felements •
+
+    $default  reduce using rule 51 (felements)
+
+
+State 122
+
+   52 felements: loopsAndThings felements •
+
+    $default  reduce using rule 52 (felements)
+
+
+State 123
 
    25 rbrace: RBRACE •
 
     $default  reduce using rule 25 (rbrace)
 
 
-State 122
+State 124
 
    41 elseOp: • ELSE lbrace felements rbrace
    42 loopsAndThings: IF LPAREN boolElement RPAREN lbrace felements rbrace • elseOp
-   43               | IF LPAREN boolElement RPAREN lbrace felements rbrace •  [$end, ADD, SUB, MUL, DIV, ASSIGN, LPAREN, RPAREN, INT, FLOAT, DOUBLE, CHAR, COLON, LBRACE, RBRACE, RETURN, IF, WHILE, FOR, EQ, NE, GE, GT, LE, LT, IDENTIFIER]
+   43               | IF LPAREN boolElement RPAREN lbrace felements rbrace •  [$end, ADD, SUB, MUL, DIV, ASSIGN, LPAREN, RPAREN, INT, FLOAT, DOUBLE, CHAR, COLON, LBRACE, RBRACE, RETURN, IF, WHILE, FOR, EQ, NE, GE, GT, LE, LT, IDENTIFIER, PRINT]
 
-    ELSE  shift, and go to state 130
+    ELSE  shift, and go to state 133
 
     $default  reduce using rule 43 (loopsAndThings)
 
-    elseOp  go to state 131
+    elseOp  go to state 134
 
 
-State 123
+State 125
 
    44 loopsAndThings: WHILE LPAREN boolElement RPAREN lbrace felements rbrace •
 
     $default  reduce using rule 44 (loopsAndThings)
 
 
-State 124
-
-   52 actualizacion: IDENTIFIER ADD • ADD
-
-    ADD  shift, and go to state 132
-
-
-State 125
-
-   53 actualizacion: IDENTIFIER SUB • SUB
-
-    SUB  shift, and go to state 133
-
-
 State 126
 
-   54 actualizacion: IDENTIFIER ASSIGN • expression
-   63 expression: • term
-   64           | • expression ADD term
-   65           | • expression SUB term
-   66 term: • factor
-   67     | • term MUL factor
-   68     | • term DIV factor
-   69 factor: • IDENTIFIER
-   70       | • INTEGER
-   71       | • LPAREN expression RPAREN
+   54 actualizacion: IDENTIFIER ADD • ADD
+
+    ADD  shift, and go to state 135
+
+
+State 127
+
+   55 actualizacion: IDENTIFIER SUB • SUB
+
+    SUB  shift, and go to state 136
+
+
+State 128
+
+   56 actualizacion: IDENTIFIER ASSIGN • expression
+   65 expression: • term
+   66           | • expression ADD term
+   67           | • expression SUB term
+   68 term: • factor
+   69     | • term MUL factor
+   70     | • term DIV factor
+   71 factor: • IDENTIFIER
+   72       | • INTEGER
+   73       | • LPAREN expression RPAREN
 
     LPAREN      shift, and go to state 38
     IDENTIFIER  shift, and go to state 39
     INTEGER     shift, and go to state 40
 
-    expression  go to state 134
+    expression  go to state 137
     term        go to state 42
     factor      go to state 43
 
 
-State 127
+State 129
 
    24 lbrace: • LBRACE
    46 loopsAndThings: FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN • lbrace felements rbrace
 
     LBRACE  shift, and go to state 98
 
-    lbrace  go to state 135
+    lbrace  go to state 138
 
 
-State 128
+State 130
 
    25 rbrace: • RBRACE
    26 funcs: etype IDENTIFIER LPAREN declaration_list RPAREN lbrace felements • rbrace
 
-    RBRACE  shift, and go to state 121
+    RBRACE  shift, and go to state 123
 
-    rbrace  go to state 136
+    rbrace  go to state 139
 
 
-State 129
+State 131
 
    27 funcs: VOID IDENTIFIER LPAREN declaration_list RPAREN lbrace felements rbrace •
 
     $default  reduce using rule 27 (funcs)
 
 
-State 130
+State 132
+
+   50 felements: PRINT SEMICOLON felements •
+
+    $default  reduce using rule 50 (felements)
+
+
+State 133
 
    24 lbrace: • LBRACE
    41 elseOp: ELSE • lbrace felements rbrace
 
     LBRACE  shift, and go to state 98
 
-    lbrace  go to state 137
+    lbrace  go to state 140
 
 
-State 131
+State 134
 
    42 loopsAndThings: IF LPAREN boolElement RPAREN lbrace felements rbrace elseOp •
 
     $default  reduce using rule 42 (loopsAndThings)
 
 
-State 132
+State 135
 
-   52 actualizacion: IDENTIFIER ADD ADD •
-
-    $default  reduce using rule 52 (actualizacion)
-
-
-State 133
-
-   53 actualizacion: IDENTIFIER SUB SUB •
-
-    $default  reduce using rule 53 (actualizacion)
-
-
-State 134
-
-   54 actualizacion: IDENTIFIER ASSIGN expression •  [RPAREN]
-   64 expression: expression • ADD term
-   65           | expression • SUB term
-
-    ADD  shift, and go to state 57
-    SUB  shift, and go to state 58
+   54 actualizacion: IDENTIFIER ADD ADD •
 
     $default  reduce using rule 54 (actualizacion)
 
 
-State 135
+State 136
+
+   55 actualizacion: IDENTIFIER SUB SUB •
+
+    $default  reduce using rule 55 (actualizacion)
+
+
+State 137
+
+   56 actualizacion: IDENTIFIER ASSIGN expression •  [RPAREN]
+   66 expression: expression • ADD term
+   67           | expression • SUB term
+
+    ADD  shift, and go to state 57
+    SUB  shift, and go to state 58
+
+    $default  reduce using rule 56 (actualizacion)
+
+
+State 138
 
    12 error_handling: • IDENTIFIER
    13               | • COLON
@@ -2392,20 +2509,22 @@ State 135
    46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
    46               | FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace • felements rbrace
    47 felements: • thingThatCanHappen
-   48          | • loopsAndThings
-   49          | • thingThatCanHappen felements
-   50          | • loopsAndThings felements
-   51          | • error_handling
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   48          | • PRINT SEMICOLON
+   49          | • loopsAndThings
+   50          | • PRINT SEMICOLON felements
+   51          | • thingThatCanHappen felements
+   52          | • loopsAndThings felements
+   53          | • error_handling
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     ADD         shift, and go to state 1
     SUB         shift, and go to state 2
@@ -2431,24 +2550,25 @@ State 135
     LE          shift, and go to state 23
     LT          shift, and go to state 24
     IDENTIFIER  shift, and go to state 25
+    PRINT       shift, and go to state 109
 
-    error_handling      go to state 109
-    thingThatCanHappen  go to state 110
+    error_handling      go to state 110
+    thingThatCanHappen  go to state 111
     statement           go to state 33
-    loopsAndThings      go to state 111
-    felements           go to state 138
+    loopsAndThings      go to state 112
+    felements           go to state 141
     bcomparator         go to state 35
-    etype               go to state 113
+    etype               go to state 114
 
 
-State 136
+State 139
 
    26 funcs: etype IDENTIFIER LPAREN declaration_list RPAREN lbrace felements rbrace •
 
     $default  reduce using rule 26 (funcs)
 
 
-State 137
+State 140
 
    12 error_handling: • IDENTIFIER
    13               | • COLON
@@ -2474,20 +2594,22 @@ State 137
    45               | • RETURN expression SEMICOLON
    46               | • FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace
    47 felements: • thingThatCanHappen
-   48          | • loopsAndThings
-   49          | • thingThatCanHappen felements
-   50          | • loopsAndThings felements
-   51          | • error_handling
-   57 bcomparator: • EQ
-   58            | • NE
-   59            | • GE
-   60            | • GT
-   61            | • LE
-   62            | • LT
-   72 etype: • INT
-   73      | • FLOAT
-   74      | • DOUBLE
-   75      | • CHAR
+   48          | • PRINT SEMICOLON
+   49          | • loopsAndThings
+   50          | • PRINT SEMICOLON felements
+   51          | • thingThatCanHappen felements
+   52          | • loopsAndThings felements
+   53          | • error_handling
+   59 bcomparator: • EQ
+   60            | • NE
+   61            | • GE
+   62            | • GT
+   63            | • LE
+   64            | • LT
+   74 etype: • INT
+   75      | • FLOAT
+   76      | • DOUBLE
+   77      | • CHAR
 
     ADD         shift, and go to state 1
     SUB         shift, and go to state 2
@@ -2513,44 +2635,45 @@ State 137
     LE          shift, and go to state 23
     LT          shift, and go to state 24
     IDENTIFIER  shift, and go to state 25
+    PRINT       shift, and go to state 109
 
-    error_handling      go to state 109
-    thingThatCanHappen  go to state 110
+    error_handling      go to state 110
+    thingThatCanHappen  go to state 111
     statement           go to state 33
-    loopsAndThings      go to state 111
-    felements           go to state 139
+    loopsAndThings      go to state 112
+    felements           go to state 142
     bcomparator         go to state 35
-    etype               go to state 113
+    etype               go to state 114
 
 
-State 138
+State 141
 
    25 rbrace: • RBRACE
    46 loopsAndThings: FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements • rbrace
 
-    RBRACE  shift, and go to state 121
+    RBRACE  shift, and go to state 123
 
-    rbrace  go to state 140
+    rbrace  go to state 143
 
 
-State 139
+State 142
 
    25 rbrace: • RBRACE
    41 elseOp: ELSE lbrace felements • rbrace
 
-    RBRACE  shift, and go to state 121
+    RBRACE  shift, and go to state 123
 
-    rbrace  go to state 141
+    rbrace  go to state 144
 
 
-State 140
+State 143
 
    46 loopsAndThings: FOR LPAREN statement boolElement SEMICOLON actualizacion RPAREN lbrace felements rbrace •
 
     $default  reduce using rule 46 (loopsAndThings)
 
 
-State 141
+State 144
 
    41 elseOp: ELSE lbrace felements rbrace •
 

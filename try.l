@@ -46,6 +46,7 @@ int contarRepeticiones(const char *cadena, char simbolo) {
 ">"                         { return GT; }
 "<="                        { return LE; }
 "<"                         { return LT; }
+"printf("\"[^\"]*\"(,[ a-zA-Z][a-zA-Z0-9_]*)*")" { yylval.string=strdup(yytext); return PRINT; }
 "//"[^'\n']*                 { yylval.string=strdup(yytext); return COMENTARIOLINEA; }
 "/*""/"*([^*/]|[^*]"/"|"*"[^/])*"*"*"*/" { line_num += contarRepeticiones(strdup(yytext), '\n');yylval.string=strdup(yytext); return COMENTARIOCONJUNTO; }
 "'"[^ ''' ';' '\n']*"'"     {  yylval.string=strdup(yytext); return CHARVALUE;  }

@@ -15,6 +15,8 @@ int v(int b){
 
     int digito=0;
 
+    printf("%d", a);
+
     for (int i = 1; i <= 5; i++) {
         b = b+1;
     }
